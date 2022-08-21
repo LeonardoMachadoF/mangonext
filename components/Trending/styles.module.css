@@ -1,0 +1,27 @@
+.trendText {
+    display: flex;
+    margin-top: 12px;
+    align-items: center;
+}
+
+.trendText p {
+    margin-left: 12px;
+}
+
+.trendingRow {
+    position: relative;
+    overflow: hidden;
+}
+
+.carrousel {
+    white-space: nowrap;
+    width: 2000px;
+    transition: all ease .5s;
+}
+
+.arrowCarrousel {
+    position: absolute;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 230px;
+}

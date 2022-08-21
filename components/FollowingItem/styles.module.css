@@ -1,0 +1,26 @@
+.followingItem {
+    display: flex;
+    padding: 10px;
+    height: 104px;
+    width: 50%;
+    border-top: 2px solid #c4c4c4;
+}
+
+.followingItem img {
+    height: 82px;
+}
+
+.followingInfo {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 8px;
+}
+
+.followingSubInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}

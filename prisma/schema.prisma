@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String           @id @default(uuid())
+  name           String
+  email          String           @unique
+  passwordHash   String
+  profilePicture String?
+  description    String?
+  viwed          MangaOnHistory[]
+  createdAt      DateTime         @default(now())
+
+  @@map("users")
+}
+
+model Manga {
+  id          String           @id @default(uuid())
+  title       String
+  slug        String           @unique
+  description String
+  imageUrl    String?
+  views       MangaOnHistory[]
+  chapters    Chapter[]
+
+  @@map("mangas")
+}
+
+model Chapter {
+  id        String   @id @default(uuid())
+  title     String
+  volume    Int
+  chapter   Int
+  slug      String   @unique
+  imagesUrl String[]
+  manga     Manga    @relation(fields: [manga_id], references: [id])
+  manga_id  String
+  views     Int      @default(0)
+}
+
+model MangaOnHistory {
+  id        String   @id @default(uuid())
+  user      User?    @relation(fields: [user_id], references: [id])
+  user_id   String?
+  manga     Manga?   @relation(fields: [manga_id], references: [id])
+  manga_id  String?
+  createdAt DateTime @default(now())
+
+  @@map("mangas_on_history")
+}
