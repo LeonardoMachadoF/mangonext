@@ -1,6 +1,4 @@
 .aside {
-    width: 230px;
-    margin-top: 28px;
     padding: 0px 24px;
 }
 
@@ -8,19 +6,19 @@
     margin-top: 30px;
 }
 
-.updates{
+.updates {
     margin-top: 40px;
 }
 
-.updates p{
+.updates p {
     font-size: 18px;
 }
 
-.navConfig{
+.navConfig {
     margin-top: 40px;
     border-top: 1px solid #666666;
 }
 
-.navConfig div{
+.navConfig div {
     margin-top: 20px;
 }

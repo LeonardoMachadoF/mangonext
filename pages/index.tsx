@@ -1,15 +1,17 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { FileArrowUp, Lightbulb, Star, TrendUp } from 'phosphor-react'
+import { useEffect } from 'react'
 import { Aside } from '../components/Aside'
 import { FollowingItem } from '../components/FollowingItem'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Trending } from '../components/Trending'
-import { useApi } from '../libs/useApi'
+import { useThemeContext } from '../contexts/colorContext/context'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = ({ manga }: any) => {
+const Home: NextPage = () => {
+    const { theme, setTheme } = useThemeContext();
     return (
         <div className={styles.homePage}>
             <Head>
@@ -30,26 +32,13 @@ const Home: NextPage = ({ manga }: any) => {
                 <meta property="twitter:image" content="" />
             </Head>
 
-            <div className={styles.container}>
-                <Aside />
-                <div className={styles.mainArea}>
-                    <Header />
-                    <main className={styles.contentArea}>
+            <div className={styles.container} style={{ backgroundColor: theme.primaryColor }}>
+                <Header />
+                <div className={styles.mainArea} >
+                    <Aside />
+                    <main className={styles.contentArea} >
                         <Trending title='Em alta' icon={<TrendUp size={24} color="#c4c4c4" />} />
-                        <div className={styles.following}>
-                            <div className={styles.followingIcon}>
-                                <Star size={24} color="#c4c4c4" weight="thin" />
-                                <p>Seguindo</p>
-                            </div>
-                            <div className={styles.followingItems}>
-                                <FollowingItem manga={manga} />
-                                <FollowingItem manga={manga} />
-                                <FollowingItem manga={manga} />
-                                <FollowingItem manga={manga} />
-                                <FollowingItem manga={manga} />
-                                <FollowingItem manga={manga} />
-                            </div>
-                        </div>
+
                         <div className={styles.following}>
                             <div className={styles.followingIcon}>
                                 <FileArrowUp size={24} color="#c4c4c4" />
@@ -76,22 +65,5 @@ const Home: NextPage = ({ manga }: any) => {
     )
 }
 
-
-export const getServerSideProps: GetServerSideProps = async () => {
-    let manga = await useApi.getMangas()
-    if (manga) {
-        return {
-            props: {
-                manga: manga[0]
-            }
-        }
-    }
-    return {
-        props: {
-
-        }
-    }
-
-}
 
 export default Home

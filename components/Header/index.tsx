@@ -1,11 +1,17 @@
-import { Bell, DownloadSimple, MagnifyingGlass } from 'phosphor-react'
+import { Bell, DownloadSimple, List, MagnifyingGlass } from 'phosphor-react'
+import { useThemeContext } from '../../contexts/colorContext/context'
 import styles from './styles.module.css'
 
 export const Header = () => {
+    const { theme, setTheme } = useThemeContext();
+
     return (
-        <header className={styles.header}>
+        <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
             <div className={styles.logo}>
-                Logo
+
+                <List size={24} color="#c4c4c4" weight="bold" />
+
+                <div onClick={() => setTheme()}>Logo</div>
             </div>
             <div className={styles.searchArea}>
                 <div className={styles.searchBar}>

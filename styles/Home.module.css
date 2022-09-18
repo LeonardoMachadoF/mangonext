@@ -5,14 +5,18 @@
 
 .container {
     display: flex;
+    flex-direction: column;
 }
 
 .mainArea {
+    display: flex;
+    gap: 40px;
     flex: 1;
     max-width: calc(100% - 230px);
 }
 
 .contentArea {
+    padding-top: 50px;
     margin: auto;
     width: 98%;
     max-width: 1400px;

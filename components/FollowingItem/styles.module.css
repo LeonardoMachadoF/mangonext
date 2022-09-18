@@ -1,13 +1,12 @@
 .followingItem {
     display: flex;
     padding: 10px;
-    height: 104px;
     width: 50%;
     border-top: 2px solid #c4c4c4;
 }
 
 .followingItem img {
-    height: 82px;
+    height: 140px;
 }
 
 .followingInfo {

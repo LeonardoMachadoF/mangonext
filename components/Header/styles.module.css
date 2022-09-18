@@ -1,25 +1,28 @@
 .header {
     display: flex;
-    height: 84px;
-    flex: 1;
+    height: 90px;
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #c4c4c4;
+    padding: 0px 30px;
 }
 
 .searchArea {
+    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 
 .searchArea * {
-    margin-right: 26px;
+    margin-left: 26px;
 }
 
 .searchBar {
     display: flex;
     height: 44px;
-    max-width: 400px;
+    width: 300px;
+    padding-right: 20px;
     align-items: center;
     background-color: #666666;
     border-radius: 20px;
@@ -31,7 +34,6 @@
     border-radius: inherit;
     border: none;
     height: 100%;
-    padding-left: 30px;
     outline: none;
 }
 
@@ -44,4 +46,14 @@
     height: 24px;
     background-color: #666666;
     border-radius: 50%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo div {
+    font-size: 30px;
+    margin-left: 20px;
 }
