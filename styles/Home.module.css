@@ -38,6 +38,5 @@
 .followingItems {
     display: flex;
     flex-wrap: wrap;
-    background-color: #333333;
     border-bottom: 2px solid #c4c4c4;
 }

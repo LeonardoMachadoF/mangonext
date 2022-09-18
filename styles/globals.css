@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
-  color: #c4c4c4;
+  padding: 0;
+  margin: 0;
 }
 
 html,

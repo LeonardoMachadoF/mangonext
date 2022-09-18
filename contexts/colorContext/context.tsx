@@ -4,6 +4,7 @@ type themeInitialState = {
     primaryColor: string;
     secondaryColor: string;
     terciaryColor: string;
+    fontColor: string
 }
 
 type ContextType = {
@@ -14,7 +15,8 @@ type ContextType = {
 const themeInitialState = {
     primaryColor: '#1c1c1c',
     secondaryColor: '#323634',
-    terciaryColor: '#000000'
+    terciaryColor: '#000000',
+    fontColor: '#fff'
 }
 
 const Context = createContext<ContextType>({
@@ -42,7 +44,8 @@ export const useThemeContext = () => {
                 setTheme({
                     primaryColor: '#b5f7de',
                     secondaryColor: '#7caa98',
-                    terciaryColor: '#6a9182'
+                    terciaryColor: '#6a9182',
+                    fontColor: '#000'
                 })
                 return
             }
@@ -50,7 +53,8 @@ export const useThemeContext = () => {
                 setTheme({
                     primaryColor: '#1c1c1c',
                     secondaryColor: '#323634',
-                    terciaryColor: '#000000'
+                    terciaryColor: '#000000',
+                    fontColor: '#fff'
                 })
                 return
             }

@@ -13,7 +13,7 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
     const { theme, setTheme } = useThemeContext();
     return (
-        <div className={styles.homePage}>
+        <div className={styles.homePage} style={{ color: theme.fontColor }}>
             <Head>
                 <title>Mango Mangna</title>
                 <meta name="title" content="MangoMangna" />
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
                     <main className={styles.contentArea} >
                         <Trending title='Em alta' icon={<TrendUp size={24} color="#c4c4c4" />} />
 
-                        <div className={styles.following}>
+                        <div className={styles.following} >
                             <div className={styles.followingIcon}>
                                 <FileArrowUp size={24} color="#c4c4c4" />
                                 <p>Novos Lançamentos</p>
