@@ -1,6 +1,6 @@
 .header {
     display: flex;
-    height: 90px;
+    height: 80px;
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #fff;
@@ -55,4 +55,46 @@
 .logo div {
     font-size: 30px;
     margin-left: 20px;
+}
+
+.toggle input[type="checkbox"] {
+    appearance: none;
+    width: 55px;
+    height: 30px;
+    background-color: #707070;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.toggle input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #d5d5d5;
+    border-radius: 50%;
+    left: 5px;
+    top: 5px;
+    transition: .3s;
+}
+
+.toggle input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    color: #34384b;
+    font-size: 20px;
+    left: 20px;
+    top: 29px;
+    transition: .3s;
+}
+
+.toggle input[type="checkbox"]:checked {
+    background: linear-gradient(91deg, #5de4d9d4, #04fce7d4);
+}
+
+.toggle input[type="checkbox"]:checked:before {
+    background: #000;
+    left: 30px;
 }

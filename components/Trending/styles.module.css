@@ -1,6 +1,7 @@
 .trendText {
     display: flex;
     margin-top: 12px;
+    margin-bottom: 8px;
     align-items: center;
 }
 

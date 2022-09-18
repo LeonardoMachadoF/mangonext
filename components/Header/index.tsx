@@ -14,6 +14,9 @@ export const Header = () => {
                 <div onClick={() => setTheme()}>Logo</div>
             </div>
             <div className={styles.searchArea}>
+                <div className={styles.toggle}>
+                    <input type="checkbox" name="switch" id="switch" onChange={e => setTheme()} />
+                </div>
                 <div className={styles.searchBar}>
                     <input type="text" placeholder='Pesquise um manga' />
                     <MagnifyingGlass size={24} color="#fff" />

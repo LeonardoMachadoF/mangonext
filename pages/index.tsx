@@ -37,11 +37,11 @@ const Home: NextPage = () => {
                 <div className={styles.mainArea} >
                     <Aside />
                     <main className={styles.contentArea} >
-                        <Trending title='Em alta' icon={<TrendUp size={24} color="#fff" />} />
+                        <Trending title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
 
                         <div className={styles.following} >
                             <div className={styles.followingIcon}>
-                                <FileArrowUp size={24} color="#fff" />
+                                <FileArrowUp size={24} color={theme.iconColor} />
                                 <p>Novos Lançamentos</p>
                             </div>
                             <div className={styles.followingItems}>
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                             </div>
                         </div>
 
-                        <Trending title='Talvez você possa gostar desses' icon={<Lightbulb size={24} color="#fff" />} />
+                        <Trending title='Talvez você possa gostar desses' icon={<Lightbulb size={24} color={theme.iconColor} />} />
 
                     </main>
                 </div>

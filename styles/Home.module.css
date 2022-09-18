@@ -33,6 +33,7 @@
 .followingIcon {
     display: flex;
     align-items: center;
+    margin-bottom: 8px;
 }
 
 .followingIcon p {
