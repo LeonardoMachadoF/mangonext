@@ -38,8 +38,8 @@ export const Trending = ({ title, icon }: Props) => {
                     <TrendingItem />
                     <TrendingItem />
                 </div>
-                <CaretLeft className={styles.arrowCarrousel} onClick={handleLeftClick} size={24} color="#c4c4c4" />
-                <CaretRight className={styles.arrowCarrousel} onClick={handleRightClick} size={24} color="#c4c4c4" style={{ right: '0px' }} />
+                <CaretLeft className={styles.arrowCarrousel} onClick={handleLeftClick} size={24} color="#fff" />
+                <CaretRight className={styles.arrowCarrousel} onClick={handleRightClick} size={24} color="#fff" style={{ right: '0px' }} />
             </div>
         </div>
     )

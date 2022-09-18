@@ -9,18 +9,15 @@ export const Header = () => {
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
             <div className={styles.logo}>
 
-                <List size={24} color="#c4c4c4" weight="bold" />
+                <List size={24} color="#fff" weight="bold" />
 
                 <div onClick={() => setTheme()}>Logo</div>
             </div>
             <div className={styles.searchArea}>
                 <div className={styles.searchBar}>
                     <input type="text" placeholder='Pesquise um manga' />
-                    <MagnifyingGlass size={24} color="#c4c4c4" />
+                    <MagnifyingGlass size={24} color="#fff" />
                 </div>
-                <DownloadSimple size={24} color="#c4c4c4" />
-                <Bell size={24} color="#c4c4c4" />
-                <div className={styles.profileIcon}></div>
             </div>
         </header>
     )

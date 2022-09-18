@@ -3,7 +3,7 @@
     height: 90px;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #c4c4c4;
+    border-bottom: 2px solid #fff;
     padding: 0px 30px;
 }
 
@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-right: 20px;
 }
 
 .searchArea * {
@@ -21,7 +22,7 @@
 .searchBar {
     display: flex;
     height: 44px;
-    width: 300px;
+    width: 400px;
     padding-right: 20px;
     align-items: center;
     background-color: #666666;
@@ -35,17 +36,11 @@
     border: none;
     height: 100%;
     outline: none;
+    color: #fff;
 }
 
 .searchBar input::placeholder {
-    color: #c4c4c4;
-}
-
-.profileIcon {
-    width: 24px;
-    height: 24px;
-    background-color: #666666;
-    border-radius: 50%;
+    color: #fff;
 }
 
 .logo {

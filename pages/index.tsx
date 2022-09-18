@@ -13,7 +13,7 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
     const { theme, setTheme } = useThemeContext();
     return (
-        <div className={styles.homePage} style={{ color: theme.fontColor }}>
+        <div className={styles.homePage} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
                 <title>Mango Mangna</title>
                 <meta name="title" content="MangoMangna" />
@@ -32,16 +32,16 @@ const Home: NextPage = () => {
                 <meta property="twitter:image" content="" />
             </Head>
 
-            <div className={styles.container} style={{ backgroundColor: theme.primaryColor }}>
+            <div className={styles.container} >
                 <Header />
                 <div className={styles.mainArea} >
                     <Aside />
                     <main className={styles.contentArea} >
-                        <Trending title='Em alta' icon={<TrendUp size={24} color="#c4c4c4" />} />
+                        <Trending title='Em alta' icon={<TrendUp size={24} color="#fff" />} />
 
                         <div className={styles.following} >
                             <div className={styles.followingIcon}>
-                                <FileArrowUp size={24} color="#c4c4c4" />
+                                <FileArrowUp size={24} color="#fff" />
                                 <p>Novos Lançamentos</p>
                             </div>
                             <div className={styles.followingItems}>
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                             </div>
                         </div>
 
-                        <Trending title='Talvez você possa gostar desses' icon={<Lightbulb size={24} color="#c4c4c4" />} />
+                        <Trending title='Talvez você possa gostar desses' icon={<Lightbulb size={24} color="#fff" />} />
 
                     </main>
                 </div>

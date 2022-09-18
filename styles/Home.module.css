@@ -5,6 +5,7 @@
 
 .container {
     display: flex;
+    flex: 1;
     flex-direction: column;
 }
 
@@ -20,6 +21,7 @@
     margin: auto;
     width: 98%;
     max-width: 1400px;
+    padding-bottom: 40px;
 }
 
 .following {
@@ -38,5 +40,5 @@
 .followingItems {
     display: flex;
     flex-wrap: wrap;
-    border-bottom: 2px solid #c4c4c4;
+    border-bottom: 2px solid #fff;
 }

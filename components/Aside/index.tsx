@@ -9,10 +9,10 @@ export const Aside = () => {
     return (
         <nav className={styles.aside} style={{ backgroundColor: theme.terciaryColor }}>
             <div className={styles.navItems}>
-                <AsideNavItems icon={<House size={24} color="#c4c4c4" />} name={'Home'} />
-                <AsideNavItems icon={<Fire size={24} color="#c4c4c4" />} name={'Populares'} />
-                <AsideNavItems icon={<Cards size={24} color="#c4c4c4" />} name={'Recomendações'} />
-                <AsideNavItems icon={<Funnel size={24} color="#c4c4c4" weight="bold" />} name={'Pesquisa Avançada'} />
+                <AsideNavItems icon={<House size={24} color="#fff" />} name={'Home'} />
+                <AsideNavItems icon={<Fire size={24} color="#fff" />} name={'Populares'} />
+                <AsideNavItems icon={<Cards size={24} color="#fff" />} name={'Recomendações'} />
+                <AsideNavItems icon={<Funnel size={24} color="#fff" weight="bold" />} name={'Pesquisa Avançada'} />
             </div>
         </nav>
     )
