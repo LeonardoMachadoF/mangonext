@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { useThemeContext } from "../../contexts/colorContext/context"
 import styles from './styles.module.css'
 
 type Props = {
@@ -8,8 +9,9 @@ type Props = {
 }
 
 export const AsideNavItems = ({ icon, name, path = '' }: Props) => {
+    const { theme } = useThemeContext()
     return (
-        <div className={styles.navItem}>
+        <div className={styles.navItem} >
             {icon}
             <Link href={`/${path}`}>{name}</Link>
         </div>

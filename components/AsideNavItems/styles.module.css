@@ -2,8 +2,9 @@
     display: flex;
     align-items: center;
     margin-top: 10px;
+    color: #fff;
 }
 
-.navItem a{
+.navItem a {
     margin-left: 12px;
 }
