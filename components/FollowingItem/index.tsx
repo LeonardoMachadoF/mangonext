@@ -9,11 +9,7 @@ type Props = {
 
 export const FollowingItem = ({ manga }: Props) => {
     const { theme, setTheme } = useThemeContext();
-    useEffect(() => {
-        if (manga) {
-            console.log(manga.imageUrl)
-        }
-    }, [])
+
     return (
         <div className={styles.followingItem} style={{ backgroundColor: theme.secondaryColor }}>
             <img src={`https://www.asurascans.com/wp-content/uploads/2022/08/resource.jpeg`} alt="" />

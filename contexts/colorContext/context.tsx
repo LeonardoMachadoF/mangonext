@@ -41,7 +41,11 @@ export const useThemeContext = () => {
 
     return {
         theme: theme,
-        setTheme: () => {
+        setTheme: (ctx?: any) => {
+            if (ctx) {
+                setTheme(ctx);
+                return;
+            }
             if (theme.primaryColor === '#1c1c1c') {
                 setTheme({
                     primaryColor: '#b5f7de',
