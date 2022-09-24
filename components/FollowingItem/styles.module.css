@@ -2,7 +2,7 @@
     display: flex;
     padding: 10px;
     width: 50%;
-    border-top: 2px solid #fff;
+    border-top: 2px solid #000;
 }
 
 .followingItem img {
@@ -15,6 +15,11 @@
     flex-direction: column;
     justify-content: space-between;
     margin-left: 8px;
+}
+
+.desc {
+    font-size: 13px;
+    width: 95%;
 }
 
 .followingSubInfo {

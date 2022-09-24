@@ -1,27 +1,28 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
+import { ContextType, themeInitialState } from "./types";
 
-type themeInitialState = {
-    primaryColor: string;
-    secondaryColor: string;
-    terciaryColor: string;
-    fontColor: string;
-    iconColor: string;
-}
+export const themes: themeInitialState = [
+    {
+        theme: 'dark',
+        primaryColor: '#1c1c1c',
+        secondaryColor: '#323634',
+        terciaryColor: '#000000',
+        fontColor: '#fff',
+        iconColor: '#fff'
+    },
+    {
+        theme: 'light',
+        primaryColor: '#FBF9F9',
+        secondaryColor: '#FBF9F9',
+        terciaryColor: '#FBF9F9',
+        fontColor: '#000',
+        iconColor: '#000'
+    }
+]
 
-type ContextType = {
-    theme: themeInitialState,
-    setTheme: any
-}
+const themeInitialState = themes[0];
 
-const themeInitialState = {
-    primaryColor: '#1c1c1c',
-    secondaryColor: '#323634',
-    terciaryColor: '#000000',
-    fontColor: '#fff',
-    iconColor: '#fff'
-}
-
-const Context = createContext<ContextType>({
+export const Context = createContext<ContextType>({
     theme: themeInitialState,
     setTheme: () => { }
 })
@@ -34,38 +35,4 @@ export const ContextProvider = ({ children }: any) => {
             {children}
         </Context.Provider>
     )
-}
-
-export const useThemeContext = () => {
-    const { theme, setTheme } = useContext(Context);
-
-    return {
-        theme: theme,
-        setTheme: (ctx?: any) => {
-            if (ctx) {
-                setTheme(ctx);
-                return;
-            }
-            if (theme.primaryColor === '#1c1c1c') {
-                setTheme({
-                    primaryColor: '#b5f7de',
-                    secondaryColor: '#7caa98',
-                    terciaryColor: '#6a9182',
-                    fontColor: '#000',
-                    iconColor: '#000'
-                })
-                return
-            }
-            if (theme.primaryColor === '#b5f7de') {
-                setTheme({
-                    primaryColor: '#1c1c1c',
-                    secondaryColor: '#323634',
-                    terciaryColor: '#000000',
-                    fontColor: '#fff',
-                    iconColor: '#fff'
-                })
-                return
-            }
-        }
-    }
 }

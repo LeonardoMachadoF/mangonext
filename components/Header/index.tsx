@@ -1,6 +1,6 @@
 import { Bell, DownloadSimple, List, MagnifyingGlass } from 'phosphor-react'
 import { ChangeEvent, useEffect } from 'react';
-import { useThemeContext } from '../../contexts/colorContext/context'
+import { useThemeContext } from '../../contexts/colorContext/hook';
 import styles from './styles.module.css'
 
 export const Header = () => {
@@ -28,17 +28,18 @@ export const Header = () => {
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
             <div className={styles.logo}>
 
-                <List size={24} color="#fff" weight="bold" />
+                <List size={24} color={theme.iconColor} weight="bold" />
 
                 <div onClick={() => setTheme()}>Logo</div>
             </div>
             <div className={styles.searchArea}>
-                <div className={styles.toggle}>
-                    <input type="checkbox" name="switch" id="switch" onChange={handleChange} checked={theme.primaryColor !== '#1c1c1c'} />
-                </div>
+
                 <div className={styles.searchBar}>
                     <input type="text" placeholder='Pesquise um manga' />
                     <MagnifyingGlass size={24} color="#fff" />
+                </div>
+                <div className={styles.toggle}>
+                    <input type="checkbox" name="switch" id="switch" onChange={handleChange} checked={theme.theme !== 'dark'} />
                 </div>
             </div>
         </header>

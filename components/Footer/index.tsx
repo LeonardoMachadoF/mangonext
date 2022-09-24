@@ -1,5 +1,5 @@
 import { Copyright } from 'phosphor-react'
-import { useThemeContext } from '../../contexts/colorContext/context'
+import { useThemeContext } from '../../contexts/colorContext/hook';
 import styles from './styles.module.css'
 
 export const Footer = () => {

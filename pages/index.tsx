@@ -7,11 +7,11 @@ import { FollowingItem } from '../components/FollowingItem'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Trending } from '../components/Trending'
-import { useThemeContext } from '../contexts/colorContext/context'
+import { useThemeContext } from '../contexts/colorContext/hook'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-    const { theme, setTheme } = useThemeContext();
+    const { theme } = useThemeContext();
     return (
         <div className={styles.homePage} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
@@ -45,12 +45,12 @@ const Home: NextPage = () => {
                                 <p>Novos Lançamentos</p>
                             </div>
                             <div className={styles.followingItems}>
-                                <FollowingItem />
-                                <FollowingItem />
-                                <FollowingItem />
-                                <FollowingItem />
-                                <FollowingItem />
-                                <FollowingItem />
+                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
+                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
+                                <FollowingItem desc="Lorem ipsNespernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
+                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
+                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
+                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
                             </div>
                         </div>
 

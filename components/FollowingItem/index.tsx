@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { useThemeContext } from '../../contexts/colorContext/context'
+import { useThemeContext } from '../../contexts/colorContext/hook'
 import styles from './styles.module.css'
 
 type Props = {
-    manga?: any
+    manga?: any;
+    desc: string;
 }
 
-export const FollowingItem = ({ manga }: Props) => {
-    const { theme, setTheme } = useThemeContext();
+export const FollowingItem = ({ manga, desc }: Props) => {
+    const { theme } = useThemeContext();
 
     return (
         <div className={styles.followingItem} style={{ backgroundColor: theme.secondaryColor }}>
@@ -16,7 +17,7 @@ export const FollowingItem = ({ manga }: Props) => {
             <div className={styles.followingInfo}>
                 <Link href='/'>{manga ? manga.title : 'Shadowless Night'}</Link>
                 <div className={styles.desc}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut?
+                    {desc.length > 300 ? `${desc.substring(0, 300)}...` : desc}
                 </div>
                 <div className={styles.followingSubInfo}>
                     <div>
@@ -26,6 +27,6 @@ export const FollowingItem = ({ manga }: Props) => {
                     <small>3 horas atrás</small>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

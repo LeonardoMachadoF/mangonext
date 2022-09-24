@@ -4,11 +4,12 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #fff;
-    padding: 0px 30px;
+    padding: 0px 18px;
     position: fixed;
     left: 0;
     right: 0;
     z-index: 999;
+    box-shadow: 0px 6px 4px rgba(0, 0, 0, 0.25);
 }
 
 .searchArea {
@@ -16,11 +17,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-right: 20px;
-}
-
-.searchArea * {
-    margin-left: 26px;
 }
 
 .searchBar {
@@ -31,6 +27,8 @@
     align-items: center;
     background-color: #666666;
     border-radius: 20px;
+    padding-left: 12px;
+    margin-right: 18px;
 }
 
 .searchBar input {
@@ -73,7 +71,7 @@
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: #d5d5d5;
+    background-color: #fff !important;
     border-radius: 50%;
     left: 5px;
     top: 5px;
@@ -83,7 +81,7 @@
 .toggle input[type="checkbox"]::after {
     content: "";
     position: absolute;
-    color: #34384b;
+    color: #fff;
     font-size: 20px;
     left: 20px;
     top: 29px;
@@ -91,7 +89,7 @@
 }
 
 .toggle input[type="checkbox"]:checked {
-    background: linear-gradient(91deg, #5de4d9d4, #04fce7d4);
+    background: linear-gradient(91deg, #424141, #221F1F);
 }
 
 .toggle input[type="checkbox"]:checked:before {
