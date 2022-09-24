@@ -3,11 +3,6 @@ import { useThemeContext } from '../../contexts/colorContext/hook';
 import { ThemeType } from '../../contexts/colorContext/types';
 import styles from './styles.module.css';
 
-type Props = {
-    handleChange: () => void;
-    theme: ThemeType;
-}
-
 export const ToogleButton = () => {
     const { theme, setTheme } = useThemeContext();
     const handleChange = async () => {

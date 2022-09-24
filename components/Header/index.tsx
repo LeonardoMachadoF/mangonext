@@ -1,5 +1,5 @@
 import { Bell, DownloadSimple, List, MagnifyingGlass } from 'phosphor-react'
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ChangeEvent, Dispatch, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useThemeContext } from '../../contexts/colorContext/hook';
 import { ToogleButton } from '../ToogleButton';
 import styles from './styles.module.css'
@@ -11,6 +11,7 @@ type Props = {
 
 export const Header = ({ menuOpen, setMenuOpen }: Props) => {
     const { theme, setTheme } = useThemeContext();
+    const inputRef = useRef<any>(null);
     const [mobile, setMobile] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
 
@@ -19,9 +20,11 @@ export const Header = ({ menuOpen, setMenuOpen }: Props) => {
     }, [])
 
 
-    const handleSearchIconClick = () => {
+    const handleSearchIconClick = async () => {
         if (mobile) {
             setSearchOpen(!searchOpen)
+            await new Promise(resolve => setTimeout(resolve, 100))
+            inputRef.current.focus()
         }
     }
     return (
@@ -46,7 +49,7 @@ export const Header = ({ menuOpen, setMenuOpen }: Props) => {
             <div className={styles.searchArea}>
 
                 <div className={styles.searchBar} style={{ width: searchOpen ? '100%' : (mobile ? 'fit-content' : '100%') }}>
-                    <input type="text" placeholder='Pesquise um manga' style={{ display: searchOpen ? (mobile ? 'block' : 'none') : '' }} />
+                    <input ref={inputRef} type="text" placeholder='Pesquise um manga' style={{ display: searchOpen ? (mobile ? 'block' : 'none') : '' }} />
                     <MagnifyingGlass size={24} color="#fff" onClick={handleSearchIconClick} />
                 </div>
 
