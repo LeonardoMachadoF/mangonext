@@ -72,6 +72,10 @@
 }
 
 @media (max-width: 400px) {
+    .searchBar {
+        width: 30%;
+    }
+
     .searchBar input {
         display: none;
         width: 100%;

@@ -45,7 +45,7 @@ export const Header = ({ menuOpen, setMenuOpen }: Props) => {
             </div>
             <div className={styles.searchArea}>
 
-                <div className={styles.searchBar}>
+                <div className={styles.searchBar} style={{ width: searchOpen ? '100%' : (mobile ? 'fit-content' : '100%') }}>
                     <input type="text" placeholder='Pesquise um manga' style={{ display: searchOpen ? (mobile ? 'block' : 'none') : '' }} />
                     <MagnifyingGlass size={24} color="#fff" onClick={handleSearchIconClick} />
                 </div>
