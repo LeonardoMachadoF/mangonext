@@ -1,5 +1,5 @@
 import { Bell, DownloadSimple, List, MagnifyingGlass } from 'phosphor-react'
-import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useThemeContext } from '../../contexts/colorContext/hook';
 import { ToogleButton } from '../ToogleButton';
 import styles from './styles.module.css'
@@ -11,10 +11,22 @@ type Props = {
 
 export const Header = ({ menuOpen, setMenuOpen }: Props) => {
     const { theme, setTheme } = useThemeContext();
+    const [mobile, setMobile] = useState(false);
+    const [searchOpen, setSearchOpen] = useState(false);
 
+    useEffect(() => {
+        if (window.innerWidth <= 400) setMobile(true);
+    }, [])
+
+
+    const handleSearchIconClick = () => {
+        if (mobile) {
+            setSearchOpen(!searchOpen)
+        }
+    }
     return (
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
-            <div className={styles.logo}>
+            <div className={styles.logo} style={{ width: searchOpen ? '50px' : '' }}>
 
                 <List
                     size={24}
@@ -23,13 +35,19 @@ export const Header = ({ menuOpen, setMenuOpen }: Props) => {
                     onClick={() => setMenuOpen(!menuOpen)} style={{ cursor: 'pointer' }}
                 />
 
-                <div onClick={() => setTheme()}>Logo</div>
+                <div
+                    onClick={() => setTheme()}
+                    className={styles.logoTitle}
+                    style={{ display: searchOpen ? 'none' : 'block' }}
+                >
+                    Logo
+                </div>
             </div>
             <div className={styles.searchArea}>
 
                 <div className={styles.searchBar}>
-                    <input type="text" placeholder='Pesquise um manga' />
-                    <MagnifyingGlass size={24} color="#fff" />
+                    <input type="text" placeholder='Pesquise um manga' style={{ display: searchOpen ? 'block' : '100%' }} />
+                    <MagnifyingGlass size={24} color="#fff" onClick={handleSearchIconClick} />
                 </div>
 
                 <div className={styles.toggle}>
