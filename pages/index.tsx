@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { FileArrowUp, Lightbulb, Star, TrendUp } from 'phosphor-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Aside } from '../components/Aside'
 import { FollowingItem } from '../components/FollowingItem'
 import { Footer } from '../components/Footer'
@@ -12,6 +12,9 @@ import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
     const { theme } = useThemeContext();
+
+    const [menuOpen, setMenuOpen] = useState(false);
+
     return (
         <div className={styles.homePage} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
@@ -33,10 +36,12 @@ const Home: NextPage = () => {
             </Head>
 
             <div className={styles.container} >
-                <Header />
-                <div className={styles.mainArea} >
-                    <Aside />
-                    <main className={styles.contentArea} >
+                <Header setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
+                <div className={styles.mainArea} style={{ marginLeft: menuOpen ? '' : 'auto', marginRight: menuOpen ? '' : 'auto' }}>
+                    {menuOpen &&
+                        <Aside />
+                    }
+                    <main className={styles.contentArea} style={{ marginLeft: menuOpen ? '240px' : '0px' }}>
                         <Trending title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
 
                         <div className={styles.following} >

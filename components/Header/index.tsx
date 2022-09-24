@@ -1,9 +1,14 @@
 import { Bell, DownloadSimple, List, MagnifyingGlass } from 'phosphor-react'
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useThemeContext } from '../../contexts/colorContext/hook';
 import styles from './styles.module.css'
 
-export const Header = () => {
+type Props = {
+    menuOpen: boolean;
+    setMenuOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export const Header = ({ menuOpen, setMenuOpen }: Props) => {
     const { theme, setTheme } = useThemeContext();
     const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
         setTheme();
@@ -28,7 +33,12 @@ export const Header = () => {
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
             <div className={styles.logo}>
 
-                <List size={24} color={theme.iconColor} weight="bold" />
+                <List
+                    size={24}
+                    color={theme.iconColor}
+                    weight="bold"
+                    onClick={() => setMenuOpen(!menuOpen)} style={{ cursor: 'pointer' }}
+                />
 
                 <div onClick={() => setTheme()}>Logo</div>
             </div>
