@@ -1,6 +1,7 @@
 import { Bell, DownloadSimple, List, MagnifyingGlass } from 'phosphor-react'
 import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useThemeContext } from '../../contexts/colorContext/hook';
+import { ToogleButton } from '../ToogleButton';
 import styles from './styles.module.css'
 
 type Props = {
@@ -10,25 +11,7 @@ type Props = {
 
 export const Header = ({ menuOpen, setMenuOpen }: Props) => {
     const { theme, setTheme } = useThemeContext();
-    const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        setTheme();
-    }
 
-    useEffect(() => {
-        let json = localStorage.getItem('theme')
-        if (json) {
-            let theme = JSON.parse(json);
-            setTheme(theme)
-        }
-    }, [])
-
-    useEffect(() => {
-        let handleTheme = async () => {
-            await new Promise((resolve) => setTimeout(resolve, 500))
-            localStorage.setItem('theme', JSON.stringify(theme));
-        }
-        handleTheme();
-    }, [theme])
     return (
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
             <div className={styles.logo}>
@@ -48,8 +31,9 @@ export const Header = ({ menuOpen, setMenuOpen }: Props) => {
                     <input type="text" placeholder='Pesquise um manga' />
                     <MagnifyingGlass size={24} color="#fff" />
                 </div>
+
                 <div className={styles.toggle}>
-                    <input type="checkbox" name="switch" id="switch" onChange={handleChange} checked={theme.theme !== 'dark'} />
+                    <ToogleButton />
                 </div>
             </div>
         </header>

@@ -28,3 +28,16 @@
 .navConfig div {
     margin-top: 20px;
 }
+
+.theme {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+@media (max-width: 1000px) {
+    .aside {
+        opacity: .9;
+    }
+}

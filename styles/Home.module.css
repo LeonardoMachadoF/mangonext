@@ -44,3 +44,11 @@
     flex-wrap: wrap;
     border-bottom: 2px solid #fff;
 }
+
+@media (max-width: 1000px) {
+    .mainArea {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 96%;
+    }
+}

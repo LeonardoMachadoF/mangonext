@@ -22,7 +22,8 @@
 .searchBar {
     display: flex;
     height: 44px;
-    width: 400px;
+    max-width: 400px;
+    width: 50%;
     padding-right: 20px;
     align-items: center;
     background-color: #666666;
@@ -55,44 +56,29 @@
     margin-left: 20px;
 }
 
-.toggle input[type="checkbox"] {
-    appearance: none;
-    width: 55px;
-    height: 30px;
-    background-color: #707070;
-    border-radius: 50px;
-    position: relative;
-    cursor: pointer;
-    transition: .3s;
+@media (max-width: 600px) {
+    .toggle {
+        display: none;
+    }
+
+    .logo {
+        width: 180px;
+    }
+
+    .searchBar {
+        width: 100%;
+        height: 40px;
+    }
 }
 
-.toggle input[type="checkbox"]::before {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #fff !important;
-    border-radius: 50%;
-    left: 5px;
-    top: 5px;
-    transition: .3s;
-}
+@media (max-width: 400px) {
+    .searchBar input {
+        display: none;
+    }
 
-.toggle input[type="checkbox"]::after {
-    content: "";
-    position: absolute;
-    color: #fff;
-    font-size: 20px;
-    left: 20px;
-    top: 29px;
-    transition: .3s;
-}
-
-.toggle input[type="checkbox"]:checked {
-    background: linear-gradient(91deg, #424141, #221F1F);
-}
-
-.toggle input[type="checkbox"]:checked:before {
-    background: #000;
-    left: 30px;
+    .searchBar {
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
 }

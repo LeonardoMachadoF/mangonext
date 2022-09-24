@@ -20,6 +20,7 @@
 .desc {
     font-size: 13px;
     width: 95%;
+    padding: 12px 0px;
 }
 
 .followingSubInfo {
@@ -27,4 +28,10 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+@media(max-width:1000px) {
+    .followingItem {
+        width: 100%;
+    }
 }
