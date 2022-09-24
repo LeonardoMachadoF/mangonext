@@ -3,11 +3,15 @@ import { useThemeContext } from '../../contexts/colorContext/hook';
 import { AsideNavItems } from '../AsideNavItems'
 import styles from './styles.module.css'
 
-export const Aside = () => {
+type Props = {
+    menuOpen: boolean;
+}
+
+export const Aside = ({ menuOpen }: Props) => {
     const { theme } = useThemeContext();
 
     return (
-        <nav className={styles.aside} style={{ backgroundColor: theme.terciaryColor }}>
+        <nav className={styles.aside} style={{ backgroundColor: theme.terciaryColor, left: menuOpen ? '0px' : '-240px' }}>
             <div className={styles.navItems}>
                 <AsideNavItems icon={<House size={24} color={theme.iconColor} />} name={'Home'} color={theme.fontColor} />
                 <AsideNavItems icon={<Fire size={24} color={theme.iconColor} />} name={'Populares'} color={theme.fontColor} />

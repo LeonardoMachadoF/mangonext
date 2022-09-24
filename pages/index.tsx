@@ -37,11 +37,10 @@ const Home: NextPage = () => {
 
             <div className={styles.container} >
                 <Header setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
-                <div className={styles.mainArea} style={{ marginLeft: menuOpen ? '' : 'auto', marginRight: menuOpen ? '' : 'auto' }}>
-                    {menuOpen &&
-                        <Aside />
-                    }
-                    <main className={styles.contentArea} style={{ marginLeft: menuOpen ? '240px' : '0px' }}>
+                <div className={styles.mainArea} style={{ marginLeft: menuOpen ? '240px' : 'auto', marginRight: menuOpen ? '0px' : 'auto' }}>
+                    <Aside menuOpen={menuOpen} />
+
+                    <main className={styles.contentArea}>
                         <Trending title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
 
                         <div className={styles.following} >
