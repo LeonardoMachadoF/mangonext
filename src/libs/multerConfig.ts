@@ -1,12 +1,13 @@
 import { randomUUID } from "crypto";
 import multer from "multer";
 import fs from 'fs';
+import path from "path";
 
 export const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            fs.mkdirSync("./public/tmp", { recursive: true })
-            cb(null, "./public/tmp");
+            fs.mkdirSync(path.join("./public/tmp"), { recursive: true })
+            cb(null, path.join("./public/tmp"));
         },
         filename: (req, file, cb) => {
             let allowed = ['jpeg', 'jpg', 'png', 'webm']
