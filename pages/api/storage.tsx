@@ -5,10 +5,9 @@ import { Credentials } from "../../src/types/Credentials";
 import { upload } from "../../src/libs/multerConfig";
 import { NextApiRequestWithFiles } from '../../src/types/ExtendedRequestWithFiles';
 import { unlinkSync } from 'fs';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../src/libs/prisma'
 export const config = { api: { bodyParser: false, }, }
 
-const prisma = new PrismaClient();
 const handler = nc();
 handler.use(upload.array('imgs', 225))
 handler.get(async (req, res: NextApiResponse) => {
