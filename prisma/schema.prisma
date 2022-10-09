@@ -36,8 +36,8 @@ model Manga {
   slug      String
   chapters  Chapter[]
   genres    GenresOnMangas[]
-  origin    Origin           @relation(fields: [origin_id], references: [id])
-  origin_id String
+  origin    Origin?          @relation(fields: [origin_id], references: [id])
+  origin_id String?
   views     Int
 
   @@map("mangas")

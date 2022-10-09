@@ -10,9 +10,11 @@ export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();
 handler.use(upload.array('imgs', 225))
-
+handler.get(async (req, res: NextApiResponse) => {
+    res.redirect(307, '/');
+})
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let { manga, volume, chapter } = req.body;
+    let { manga, volume, chapter, manga_id } = req.body;
     if (!manga || !volume || !chapter) {
         if (req.files) {
             req.files.forEach((file) => {
@@ -37,13 +39,13 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let path = `${manga}/volume-${volume}/chapter-${chapter}`
     let urls = await storageApi.uploadChapterPages(credentials, req.files, path)
 
-    let newChapter = await prisma.chapter.create({
+    let newChapter: any = await prisma.chapter.create({
         data: {
             title: manga,
             slug: manga,
             volume: parseInt(volume),
             chapter: parseInt(chapter),
-            manga_id: '6fc02fb9-278e-4207-8a2e-912509b36b42',
+            manga_id,
             views: 0
         }
     })
