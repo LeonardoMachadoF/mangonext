@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Category {
+  id   String @id @default(uuid())
+  slug String
+  name String
+
+  @@map("categories")
+}
+
+model Manga {
+  id       String    @id @default(uuid())
+  title    String
+  slug     String
+  chapters Chapter[]
+}
+
+model Chapter {
+  id       String @id @default(uuid())
+  title    String
+  slug     String
+  volume   Int
+  chapter  Int
+  pages    Page[]
+  manga    Manga  @relation(fields: [manga_id], references: [id])
+  manga_id String
+
+  @@map("chapters")
+}
+
+model Page {
+  id         String  @id @default(uuid())
+  url        String
+  chapter    Chapter @relation(fields: [chapter_id], references: [id])
+  chapter_id String
+}

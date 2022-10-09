@@ -65,30 +65,35 @@ export const storageApi = {
 
         return rawData.data
     },
-    uploadChapters: async (credentials: Credentials, pages: UploadedFile[], path: string) => {
-        pages.forEach(async (page: UploadedFile) => {
+    uploadChapterPages: async (credentials: Credentials, pages: UploadedFile[], path: string) => {
+        let urls: string[] = [];
+
+        await Promise.all(pages.map(async (page: UploadedFile) => {
             let uploadCredentials = await storageApi.getUploadCredentials(credentials)
             let uploadUrl = uploadCredentials.uploadUrl;
             let uploadAuthorizationToken = uploadCredentials.authorizationToken;
 
             var source = fs.readFileSync(page.path)
+
             let uploadResponse = await axios.post(
                 uploadUrl,
                 source,
                 {
                     headers: {
                         Authorization: uploadAuthorizationToken,
-                        "X-Bz-File-Name": `${path}/${page.filename}`,
+                        "X-Bz-File-Name": `${path.split(' ').join('-')}/${page.filename.split(' ').join('-')}`,
                         "Content-Type": "b2/x-auto",
                         "Content-Length": page.size,
                         "X-Bz-Content-Sha1": crypto.createHash('sha1').update(source).digest("hex"),
                         "X-Bz-Info-Author": "unknown",
                     }
                 })
+
+
             unlinkSync(page.path)
             if (uploadResponse.data.fileName)
-                console.log(`https://f004.backblazeb2.com/file/noveldb/${uploadResponse.data.fileName}`)
-        })
-
+                urls.push(`https://f004.backblazeb2.com/file/noveldb/${uploadResponse.data.fileName}`)
+        }))
+        return urls;
     }
 }

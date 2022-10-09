@@ -5,36 +5,12 @@ import { Credentials } from "../../src/types/Credentials";
 import { upload } from "../../src/libs/multerConfig";
 import { NextApiRequestWithFiles } from '../../src/types/ExtendedRequestWithFiles';
 import { unlinkSync } from 'fs';
-
+import prisma from '../../src/libs/prisma'
 
 export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();
-handler.use(upload.array('imgs', 200))
-
-handler.get(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let data = await storageApi.getCredentials();
-
-    let credentials: Credentials = {
-        accountId: data.accountId,
-        applicationKey: data.applicationKey,
-        apiUrl: data.apiUrl,
-        authorizationToken: data.authorizationToken,
-        downloadUrl: data.downloadUrl,
-        recommendedPartSize: data.recommendedPartSize,
-        bucketName: data.bucketName,
-        bucketId: data.bucketId
-    }
-
-    if (req.files) {
-        req.files.forEach((file) => {
-            unlinkSync(file.path)
-        })
-    }
-
-    res.json({})
-    return
-})
+handler.use(upload.array('imgs', 225))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let { manga, volume, chapter } = req.body;
@@ -58,48 +34,29 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
         bucketId: data.bucketId
     }
     let path = `${manga}/volume-${volume}/chapter-${chapter}`
-    await storageApi.uploadChapters(credentials, req.files, path)
 
-    res.json({});
+    let urls = await storageApi.uploadChapterPages(credentials, req.files, path)
+
+    let newChapter = await prisma.chapter.create({
+        data: {
+            title: manga,
+            slug: manga,
+            volume: parseInt(volume),
+            chapter: parseInt(chapter),
+            manga_id: '6fc02fb9-278e-4207-8a2e-912509b36b42'
+        }
+    })
+    await Promise.all(urls.map(async (url: string) => {
+        await prisma.page.create({
+            data: {
+                url: url,
+                chapter_id: newChapter.id
+            }
+        })
+    }))
+
+    res.json({ urls });
     return
 })
 
 export default handler;
-
-// const handler: NextApiHandler = async (req, res) => {
-//     let data = await storageApi.getCredentials();
-
-//     let credentials: Credentials = {
-//         accountId: data.accountId,
-//         applicationKey: data.applicationKey,
-//         apiUrl: data.apiUrl,
-//         authorizationToken: data.authorizationToken,
-//         downloadUrl: data.downloadUrl,
-//         recommendedPartSize: data.recommendedPartSize,
-//         bucketName: data.bucketName,
-//         bucketId: data.bucketId
-//     }
-
-//     if (req.method === 'GET') {
-//         let result = await storageApi.getImagesUrl(credentials, 'I Obtained a Mythic Item/chapter-02')
-
-//         res.json({ result })
-//         return
-//     }
-
-
-//     if (req.method === 'POST') {
-//         let uploadCredentials = await storageApi.getUploadCredentials(credentials)
-//         let uploadUrl = uploadCredentials.uploadUrl;
-//         let uploadAuthorizationToken = uploadCredentials.authorizationToken;
-
-//         res.json({ uploadUrl, uploadAuthorizationToken })
-//         return
-//     }
-
-
-
-
-// }
-
-// export default handler;
