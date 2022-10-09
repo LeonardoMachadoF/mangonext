@@ -3,7 +3,7 @@ import multer from "multer";
 
 export const upload = multer({
     storage: multer.diskStorage({
-        destination: '/public',
+        destination: '/tmp',
         filename: (req, file, cb) => {
             let allowed = ['jpeg', 'jpg', 'png', 'webm']
             allowed.includes(file.mimetype.split('/')[1]) === false ? cb(new Error('image not allowd'), '') :
