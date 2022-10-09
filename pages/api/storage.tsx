@@ -46,7 +46,7 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             volume: parseInt(volume),
             chapter: parseInt(chapter),
             manga_id: manga_id as string,
-            views: 0
+            views: parseInt('0')
         }
     })
     await Promise.all(urls.map(async (url: string) => {
