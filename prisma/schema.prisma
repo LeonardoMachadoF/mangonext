@@ -12,19 +12,45 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model Category {
-  id   String @id @default(uuid())
-  slug String
-  name String
+model Origin {
+  id     String  @id @default(uuid())
+  slug   String
+  name   String
+  mangas Manga[]
 
-  @@map("categories")
+  @@map("origins")
+}
+
+model Genre {
+  id     String           @id @default(uuid())
+  slug   String
+  name   String
+  mangas GenresOnMangas[]
+
+  @@map("genres")
 }
 
 model Manga {
-  id       String    @id @default(uuid())
-  title    String
-  slug     String
-  chapters Chapter[]
+  id        String           @id @default(uuid())
+  title     String
+  slug      String
+  chapters  Chapter[]
+  genres    GenresOnMangas[]
+  origin    Origin           @relation(fields: [origin_id], references: [id])
+  origin_id String
+  views     Int
+
+  @@map("mangas")
+}
+
+model GenresOnMangas {
+  id       String @id @default(uuid())
+  manga    Manga  @relation(fields: [manga_id], references: [id])
+  genre    Genre  @relation(fields: [genre_id], references: [id])
+  manga_id String
+  genre_id String
+
+  @@map("genres_on_mangas")
 }
 
 model Chapter {
@@ -36,6 +62,7 @@ model Chapter {
   pages    Page[]
   manga    Manga  @relation(fields: [manga_id], references: [id])
   manga_id String
+  views    Int
 
   @@map("chapters")
 }
@@ -45,4 +72,6 @@ model Page {
   url        String
   chapter    Chapter @relation(fields: [chapter_id], references: [id])
   chapter_id String
+
+  @@map("pages")
 }
