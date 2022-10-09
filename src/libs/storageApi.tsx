@@ -74,7 +74,7 @@ export const storageApi = {
             let uploadAuthorizationToken = uploadCredentials.authorizationToken;
 
             var source = fs.readFileSync(page.path)
-
+            console.log(path)
             let uploadResponse = await axios.post(
                 uploadUrl,
                 source,

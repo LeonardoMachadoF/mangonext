@@ -15,7 +15,6 @@ handler.get(async (req, res: NextApiResponse) => {
 })
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let { manga, volume, chapter, manga_id } = req.body;
-    console.log(req.files)
     if (!manga || !volume || !chapter) {
         if (req.files) {
             req.files.forEach((file) => {
@@ -44,14 +43,12 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
         data: {
             title: manga as string,
             slug: manga as string,
-            chapter: parseInt(chapter),
-            views: 0,
             volume: parseInt(volume),
+            chapter: parseInt(chapter),
             manga_id: manga_id as string,
+            views: 0
         }
     })
-
-
     await Promise.all(urls.map(async (url: string) => {
         await prisma.page.create({
             data: {
