@@ -15,6 +15,7 @@ handler.get(async (req, res: NextApiResponse) => {
 })
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let { manga, volume, chapter, manga_id } = req.body;
+    console.log(req.files)
     if (!manga || !volume || !chapter) {
         if (req.files) {
             req.files.forEach((file) => {
