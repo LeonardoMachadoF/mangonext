@@ -39,13 +39,13 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let path = `${manga}/volume-${volume}/chapter-${chapter}`
     let urls = await storageApi.uploadChapterPages(credentials, req.files, path)
 
-    let newChapter: any = await prisma.chapter.create({
+    let newChapter = await prisma.chapter.create({
         data: {
-            title: manga,
-            slug: manga,
+            title: manga as string,
+            slug: manga as string,
             volume: parseInt(volume),
             chapter: parseInt(chapter),
-            manga_id,
+            manga_id: manga_id as string,
             views: 0
         }
     })
