@@ -43,12 +43,14 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
         data: {
             title: manga as string,
             slug: manga as string,
-            volume: parseInt(volume),
             chapter: parseInt(chapter),
+            views: 0,
+            volume: parseInt(volume),
             manga_id: manga_id as string,
-            views: parseInt('0')
         }
     })
+
+
     await Promise.all(urls.map(async (url: string) => {
         await prisma.page.create({
             data: {
