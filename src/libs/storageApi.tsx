@@ -24,11 +24,14 @@ export const storageApi = {
             })
 
         return {
-            ...credentials.data,
-            accountId,
-            applicationKey,
-            bucketName,
-            bucketId
+            accountId: accountId as string,
+            applicationKey: applicationKey as string,
+            apiUrl: credentials.data.apiUrl,
+            authorizationToken: credentials.data.authorizationToken,
+            downloadUrl: credentials.data.downloadUrl,
+            recommendedPartSize: credentials.data.recommendedPartSize,
+            bucketName: bucketName as string,
+            bucketId: bucketId as string
         }
     },
     getImagesUrl: async (credentials: Credentials, path: string) => {
