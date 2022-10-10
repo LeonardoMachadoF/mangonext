@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import fs from 'fs';
 import { UploadedFile } from '../types/UploadedFile';
 import { unlinkSync } from 'node:fs';
+import { deleteFileCredentials } from '../types/deleteFileCredentials';
 
 export const storageApi = {
     getCredentials: async () => {
@@ -70,6 +71,7 @@ export const storageApi = {
     },
     uploadChapterPages: async (credentials: Credentials, pages: UploadedFile[], path: string) => {
         let urls: string[] = [];
+        let aditionalPagesInfo: { fileName: string, fileId: string }[] = [];
 
         await Promise.all(pages.map(async (page: UploadedFile) => {
             let uploadCredentials = await storageApi.getUploadCredentials(credentials)
@@ -93,9 +95,25 @@ export const storageApi = {
 
 
             unlinkSync(page.path)
-            if (uploadResponse.data.fileName)
+            if (uploadResponse.data.fileName) {
                 urls.push(`https://f004.backblazeb2.com/file/noveldb/${uploadResponse.data.fileName}`)
+                aditionalPagesInfo.push({ fileId: uploadResponse.data.fileId, fileName: uploadResponse.data.fileName })
+            }
         }))
-        return urls;
+
+        return { urls, aditionalPagesInfo };
+    },
+    deleteUploadedPages: async (credentials: Credentials, pages: deleteFileCredentials[]) => {
+        await Promise.all(
+            pages.map(async (page) => {
+                await axios.post(
+                    credentials.apiUrl + '/b2api/v1/b2_delete_file_version',
+                    {
+                        fileName: page.file_name,
+                        fileId: page.file_id
+                    },
+                    { headers: { Authorization: credentials.authorizationToken } })
+            })
+        )
     }
 }
