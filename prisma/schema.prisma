@@ -54,24 +54,24 @@ model GenresOnMangas {
 }
 
 model Chapter {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   title    String
   slug     String
   volume   Int
   chapter  Int
   pages    Page[]
-  manga    Manga  @relation(fields: [manga_id], references: [id])
-  manga_id String
+  manga    Manga?  @relation(fields: [manga_id], references: [id])
+  manga_id String?
   views    Int
 
   @@map("chapters")
 }
 
 model Page {
-  id         String  @id @default(uuid())
+  id         String   @id @default(uuid())
   url        String
-  chapter    Chapter @relation(fields: [chapter_id], references: [id])
-  chapter_id String
+  chapter    Chapter? @relation(fields: [chapter_id], references: [id])
+  chapter_id String?
 
   @@map("pages")
 }

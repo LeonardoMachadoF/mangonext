@@ -14,15 +14,17 @@ handler.get(async (req, res: NextApiResponse) => {
     res.redirect(307, '/');
 })
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let { manga, volume, chapter, manga_id } = req.body;
-    if (!manga || !volume || !chapter) {
+    let { manga, volume, chapter, manga_slug, manga_id, title } = req.body;
+    if (!manga || !volume || !chapter || (!manga_id && !manga_slug)) {
         if (req.files) {
             req.files.forEach((file) => {
+                console.log(file.path)
                 unlinkSync(file.path)
             })
         }
         return res.json({ error: 'Dados incompletos, por favor, informar manga, volume e capitulo.' })
     }
+
 
     let data = await storageApi.getCredentials();
     let credentials: Credentials = {
@@ -36,17 +38,27 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
         bucketId: data.bucketId
     }
 
-    let path = `${manga}/volume-${volume}/chapter-${chapter}`
+    let path = `${manga.toLowerCase()}/volume-${volume}/chapter-${chapter}`
     let urls = await storageApi.uploadChapterPages(credentials, req.files, path)
+
+    let mangaPrisma: any = '';
+    if (manga_id) {
+        mangaPrisma = { id: manga_id }
+    } else {
+        mangaPrisma = await prisma.manga.findFirst({ where: { slug: manga_slug }, select: { id: true } });
+    }
+    if (mangaPrisma === null) {
+        return res.json({ error: 'manga não encontrado!' })
+    }
 
     let newChapter = await prisma.chapter.create({
         data: {
-            title: manga as string,
-            slug: manga as string,
+            title: title as string,
+            slug: path.split('/').join('-') as string,
             volume: parseInt(volume),
             chapter: parseInt(chapter),
-            manga_id: manga_id as string,
-            views: 0
+            manga_id: mangaPrisma.id as string,
+            views: 0,
         }
     })
     await Promise.all(urls.map(async (url: string) => {
@@ -58,7 +70,7 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
         })
     }))
 
-    res.json({ urls });
+    res.json({ newChapter, urls });
     return
 })
 
