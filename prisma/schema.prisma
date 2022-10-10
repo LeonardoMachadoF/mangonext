@@ -39,6 +39,8 @@ model Manga {
   origin    Origin?          @relation(fields: [origin_id], references: [id])
   origin_id String?
   views     Int
+  imageUrl  String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
+  bgUrl     String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
 
   @@map("mangas")
 }

@@ -38,7 +38,7 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             views: 0,
         }
     })
-
+    console.log(urls)
     await Promise.all(urls.map(async (url: string, index: number) => {
         await prisma.page.create({
             data: {
