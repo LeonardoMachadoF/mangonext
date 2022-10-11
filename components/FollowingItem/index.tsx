@@ -4,18 +4,20 @@ import { useThemeContext } from '../../contexts/colorContext/hook'
 import styles from './styles.module.css'
 
 type Props = {
-    manga?: any;
+    title: string;
     desc: string;
+    imgUrl: string;
+    href: string;
 }
 
-export const FollowingItem = ({ manga, desc }: Props) => {
+export const FollowingItem = ({ title, desc, imgUrl, href }: Props) => {
     const { theme } = useThemeContext();
 
     return (
         <div className={styles.followingItem} style={{ backgroundColor: theme.secondaryColor }}>
-            <img src={`https://www.asurascans.com/wp-content/uploads/2022/08/resource.jpeg`} alt="" />
+            <img src={imgUrl} alt="" />
             <div className={styles.followingInfo}>
-                <Link href='/'>{manga ? manga.title : 'Shadowless Night'}</Link>
+                <Link href={href}>{title}</Link>
                 <div className={styles.desc}>
                     {desc.length > 300 ? `${desc.substring(0, 300)}...` : desc}
                 </div>

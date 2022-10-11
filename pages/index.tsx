@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { FileArrowUp, Lightbulb, TrendUp } from 'phosphor-react'
 import { useState } from 'react'
@@ -9,10 +9,11 @@ import { Header } from '../components/Header'
 import { Trending } from '../components/Trending'
 import { useThemeContext } from '../contexts/colorContext/hook'
 import styles from '../styles/Home.module.css'
+import prisma from '../src/libs/prisma';
+import { GenresOnMangas, Origin } from '@prisma/client'
 
-const Home: NextPage = () => {
+const Home = ({ mangas }: Props) => {
     const { theme } = useThemeContext();
-
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
@@ -49,12 +50,10 @@ const Home: NextPage = () => {
                                 <p>Novos Lançamentos</p>
                             </div>
                             <div className={styles.followingItems}>
-                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
-                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
-                                <FollowingItem desc="Lorem ipsNespernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
-                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
-                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
-                                <FollowingItem desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores utLorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, laudantium sit adipisci delectus unde consectetur sint fugit odio pariatur, aperiam aspernatur libero ab dolor eius error officia reprehenderit asperiores ut" />
+                                {mangas.map((manga) => {
+                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/manga/${manga.slug}`} />
+                                })}
+
                             </div>
                         </div>
 
@@ -69,5 +68,33 @@ const Home: NextPage = () => {
     )
 }
 
+type Props = {
+    mangas: {
+        created_at: any;
+        chapters: any[];
+        id: string;
+        title: string;
+        slug: string;
+        sinopse: string;
+        origin_id: string | null;
+        views: number;
+        image_url: string;
+        is_manga: boolean | null;
+        genres: GenresOnMangas[];
+        origin: Origin | null;
+    }[]
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    let raw = await prisma.manga.findMany({ include: { chapters: true, genres: true, origin: true } });
+    let mangas = raw.map((manga, index) => {
+        let chapters = manga.chapters.map(chapter => JSON.parse(JSON.stringify(chapter.created_at)))
+        return { ...manga, created_at: JSON.parse(JSON.stringify(raw[index].created_at)), chapters: chapters }
+    })
+
+    return {
+        props: { mangas }
+    }
+}
 
 export default Home
