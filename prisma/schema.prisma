@@ -34,7 +34,7 @@ model Manga {
   id         String           @id @default(uuid())
   title      String
   slug       String           @unique
-  sinopse    String
+  sinopse    String           @db.Text
   chapters   Chapter[]
   genres     GenresOnMangas[]
   origin     Origin?          @relation(fields: [origin_id], references: [id])

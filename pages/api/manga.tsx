@@ -11,7 +11,7 @@ handler.use(upload.array('img', 1))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let { title, genres, sinopse } = req.body;
-    let slug = title.split(' ').join('-').toLowerCase();
+    let slug = title.split(' ').join('-').toLowerCase().split('?').join('');
     let credentials = await storageApi.getCredentials();
     let { urls } = await storageApi.uploadChapterPages(credentials, [...req.files], slug)
     const newManga = await prisma.manga.create({
@@ -21,7 +21,7 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             image_url: urls[0],
             sinopse: sinopse as string
         }
-    }).catch(() => { })
+    })
 
     if (!newManga) {
         return res.json({ error: 'Titúlo de manga já existente!' })
