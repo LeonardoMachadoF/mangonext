@@ -8,10 +8,19 @@ type Props = {
     desc: string;
     imgUrl: string;
     href: string;
+    lastChapter: any;
 }
 
-export const FollowingItem = ({ title, desc, imgUrl, href }: Props) => {
+export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props) => {
     const { theme } = useThemeContext();
+    let lastChapterDate = 0;
+    let now = new Date(Date.now());
+    if (lastChapter) {
+        let newDate = new Date(lastChapter.created_at);
+        lastChapterDate = newDate.getTime();
+        lastChapterDate = ((now.getTime() - lastChapterDate) / 1000 / 60 / 60)
+    }
+
 
     return (
         <div className={styles.followingItem} style={{ backgroundColor: theme.secondaryColor }}>
@@ -23,10 +32,16 @@ export const FollowingItem = ({ title, desc, imgUrl, href }: Props) => {
                 </div>
                 <div className={styles.followingSubInfo}>
                     <div>
-                        <small>Vol.2 Cap. 11</small>
-                        <small>Amadeus Scans</small>
+                        {lastChapter &&
+                            <Link href={`/capitulo/${lastChapter.slug}`}>
+                                <a style={{ fontSize: '14px' }}>
+                                    Vol.{lastChapter.volume > 9 ? lastChapter.volume : `0${lastChapter.volume}`}, Capítulo {lastChapter.chapter > 9 ? lastChapter.chapter : ` 0${lastChapter.chapter}`}
+                                </a>
+                            </Link>
+                        }
+                        <small style={{ marginLeft: '10px' }}>Amadeus Scans</small>
                     </div>
-                    <small>3 horas atrás</small>
+                    <small>{(lastChapterDate / 60 * 100).toFixed(0)} {(lastChapterDate / 60 * 100) >= 2 ? 'horas' : 'hora'} atrás</small>
                 </div>
             </div>
         </div >

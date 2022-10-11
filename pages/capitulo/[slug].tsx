@@ -10,4 +10,6 @@ const Manga = () => {
     )
 }
 
+
+
 export default Manga;

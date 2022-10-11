@@ -51,7 +51,7 @@ const Home = ({ mangas }: Props) => {
                             </div>
                             <div className={styles.followingItems}>
                                 {mangas.map((manga) => {
-                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/manga/${manga.slug}`} />
+                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/manga/${manga.slug}`} lastChapter={manga.chapters[0]} />
                                 })}
 
                             </div>
@@ -87,11 +87,8 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     let raw = await prisma.manga.findMany({ include: { chapters: true, genres: true, origin: true } });
-    let mangas = raw.map((manga, index) => {
-        let chapters = manga.chapters.map(chapter => JSON.parse(JSON.stringify(chapter.created_at)))
-        return { ...manga, created_at: JSON.parse(JSON.stringify(raw[index].created_at)), chapters: chapters }
-    })
-
+    let mangas = JSON.parse(JSON.stringify(raw))
+    mangas.map((manga: any) => manga.chapters.sort((a: any, b: any) => a.title > b.title ? -1 : 1))
     return {
         props: { mangas }
     }
