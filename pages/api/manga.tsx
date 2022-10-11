@@ -19,6 +19,7 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             title,
             slug,
             image_url: urls[0],
+            sinopse: sinopse as string
         }
     }).catch(() => { })
 
@@ -33,7 +34,6 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
                 data: {
                     manga_id: newManga.id,
                     genre_id: connect.id,
-                    sinopse: sinopse
                 }
             })
         } else {
