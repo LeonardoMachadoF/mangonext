@@ -1,6 +1,6 @@
 import { Chapter, Page } from '@prisma/client';
 import { GetServerSideProps } from 'next';
-import { useState } from 'react';
+import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useRef, useState } from 'react';
 import { Aside } from '../../components/Aside';
 import { Header } from '../../components/Header';
 import prisma from '../../src/libs/prisma'
@@ -8,6 +8,7 @@ import prisma from '../../src/libs/prisma'
 
 
 const Manga = ({ chapter }: Props) => {
+    const imageRef = useRef<DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> | null>(null)
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div>
@@ -20,9 +21,12 @@ const Manga = ({ chapter }: Props) => {
                         maxWidth: '1200px',
                         width: '80%'
                     }}>
-                        <div style={{ minHeight: '850px' }}>
-                            {index < 1 ? <img src={page.url} style={{ width: '100%' }} alt='' loading="eager" /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
-                        </div>
+                        <>
+                            <div style={{ minHeight: '320px' }}>
+                                {index < 1 ? <img src={page.url} style={{ width: '100%' }} alt='' /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
+                            </div>
+                        </>
+
                     </div>
                 )
             })}
