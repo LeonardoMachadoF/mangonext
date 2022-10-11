@@ -1,23 +1,26 @@
 import { Chapter, Page } from '@prisma/client';
 import { GetServerSideProps } from 'next';
-import Image from 'next/image';
+import { useState } from 'react';
+import { Aside } from '../../components/Aside';
 import { Header } from '../../components/Header';
 import prisma from '../../src/libs/prisma'
 
 
 
 const Manga = ({ chapter }: Props) => {
-    console.log(chapter)
+    const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div>
-            {chapter.pages.map((page) => {
+            <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} absolute={true} />
+            <Aside menuOpen={menuOpen} absolute={true} />
+            {chapter.pages.map((page, index) => {
                 return (
                     <div key={page.id} style={{
                         margin: 'auto',
                         maxWidth: '1200px',
                         width: '80%'
                     }}>
-                        <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />
+                        {index < 4 ? <img src={page.url} style={{ width: '100%' }} alt='' loading="eager" /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
                     </div>
                 )
             })}

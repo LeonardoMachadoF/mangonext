@@ -7,9 +7,10 @@ import styles from './styles.module.css'
 type Props = {
     menuOpen: boolean;
     setMenuOpen: Dispatch<SetStateAction<boolean>>;
+    absolute?: boolean;
 }
 
-export const Header = ({ menuOpen, setMenuOpen }: Props) => {
+export const Header = ({ menuOpen, setMenuOpen, absolute }: Props) => {
     const { theme, setTheme } = useThemeContext();
     const inputRef = useRef<any>(null);
     const [mobile, setMobile] = useState(false);
@@ -32,7 +33,7 @@ export const Header = ({ menuOpen, setMenuOpen }: Props) => {
         setSearchOpen(!searchOpen)
     }
     return (
-        <header className={styles.header} style={{ backgroundColor: theme.secondaryColor }}>
+        <header className={styles.header} style={{ backgroundColor: theme.secondaryColor, position: absolute ? 'absolute' : 'fixed' }}>
             <div className={styles.logo} style={{ width: searchOpen ? '50px' : '' }}>
 
                 <List

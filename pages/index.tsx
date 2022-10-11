@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { FileArrowUp, Lightbulb, TrendUp } from 'phosphor-react'
 import { useState } from 'react'
@@ -39,7 +39,7 @@ const Home = ({ mangas }: Props) => {
             <div className={styles.container} >
                 <Header setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
                 <div className={styles.mainArea} style={{ marginLeft: menuOpen ? '240px' : 'auto', marginRight: menuOpen ? '0px' : 'auto' }}>
-                    <Aside menuOpen={menuOpen} />
+                    <Aside menuOpen={menuOpen} absolute={true} />
 
                     <main className={styles.contentArea}>
                         <Trending title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
@@ -85,12 +85,13 @@ type Props = {
     }[]
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
     let raw = await prisma.manga.findMany({ include: { chapters: true, genres: true, origin: true } });
     let mangas = JSON.parse(JSON.stringify(raw))
     mangas.map((manga: any) => manga.chapters.sort((a: any, b: any) => a.title > b.title ? -1 : 1))
     return {
-        props: { mangas }
+        props: { mangas },
+        revalidate: 60 * 30
     }
 }
 

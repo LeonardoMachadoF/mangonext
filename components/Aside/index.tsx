@@ -6,13 +6,14 @@ import styles from './styles.module.css'
 
 type Props = {
     menuOpen: boolean;
+    absolute?: boolean;
 }
 
-export const Aside = ({ menuOpen }: Props) => {
+export const Aside = ({ menuOpen, absolute }: Props) => {
     const { theme } = useThemeContext();
 
     return (
-        <nav className={styles.aside} style={{ backgroundColor: theme.terciaryColor, left: menuOpen ? '0px' : '-240px' }}>
+        <nav className={styles.aside} style={{ backgroundColor: theme.terciaryColor, left: menuOpen ? '0px' : '-240px', position: absolute ? 'absolute' : 'fixed', borderRadius: absolute ? '30px' : '0' }}>
             <div className={styles.navItems}>
                 <AsideNavItems icon={<House size={24} color={theme.iconColor} />} name={'Home'} color={theme.fontColor} />
                 <AsideNavItems icon={<Fire size={24} color={theme.iconColor} />} name={'Populares'} color={theme.fontColor} />
@@ -22,6 +23,6 @@ export const Aside = ({ menuOpen }: Props) => {
                     <ToogleButton /> <small>Tema: {theme.theme}</small>
                 </div>
             </div>
-        </nav>
+        </nav >
     )
 }
