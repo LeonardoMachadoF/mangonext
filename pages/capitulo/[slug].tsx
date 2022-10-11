@@ -20,7 +20,7 @@ const Manga = ({ chapter }: Props) => {
                         maxWidth: '1200px',
                         width: '80%'
                     }}>
-                        <div style={{ height: 'fit-content' }}>
+                        <div style={{ minHeight: '850px' }}>
                             {index < 1 ? <img src={page.url} style={{ width: '100%' }} alt='' loading="eager" /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
                         </div>
                     </div>
