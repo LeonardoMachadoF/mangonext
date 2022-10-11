@@ -10,7 +10,7 @@ const handler = nc();
 handler.use(upload.array('img', 1))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let { title, genres } = req.body;
+    let { title, genres, sinopse } = req.body;
     let slug = title.split(' ').join('-').toLowerCase();
     let credentials = await storageApi.getCredentials();
     let { urls } = await storageApi.uploadChapterPages(credentials, [...req.files], slug)
@@ -32,7 +32,8 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             await prisma.genresOnMangas.create({
                 data: {
                     manga_id: newManga.id,
-                    genre_id: connect.id
+                    genre_id: connect.id,
+                    sinopse: sinopse
                 }
             })
         } else {

@@ -34,6 +34,7 @@ model Manga {
   id         String           @id @default(uuid())
   title      String
   slug       String           @unique
+  sinopse    String
   chapters   Chapter[]
   genres     GenresOnMangas[]
   origin     Origin?          @relation(fields: [origin_id], references: [id])
@@ -58,7 +59,7 @@ model GenresOnMangas {
 
 model Chapter {
   id         String   @id @default(uuid())
-  title      String
+  title      String?
   slug       String   @unique
   volume     Int
   chapter    Int
