@@ -31,14 +31,13 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let newChapter = await prisma.chapter.create({
         data: {
             title: title as string,
-            slug: path.split('/').join('-') as string,
+            slug: path.split('/').join('-').split(' ').join('-') as string,
             volume: parseInt(volume),
             chapter: parseInt(chapter),
             manga_id: manga_id.id as string,
             views: 0,
         }
     })
-    console.log(urls)
     await Promise.all(urls.map(async (url: string, index: number) => {
         await prisma.page.create({
             data: {

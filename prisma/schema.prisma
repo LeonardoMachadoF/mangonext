@@ -23,7 +23,7 @@ model Origin {
 
 model Genre {
   id     String           @id @default(uuid())
-  slug   String
+  slug   String           @unique
   name   String
   mangas GenresOnMangas[]
 
@@ -31,16 +31,16 @@ model Genre {
 }
 
 model Manga {
-  id        String           @id @default(uuid())
-  title     String
-  slug      String           @unique
-  chapters  Chapter[]
-  genres    GenresOnMangas[]
-  origin    Origin?          @relation(fields: [origin_id], references: [id])
-  origin_id String?
-  views     Int
-  imageUrl  String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
-  bgUrl     String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
+  id         String           @id @default(uuid())
+  title      String
+  slug       String           @unique
+  chapters   Chapter[]
+  genres     GenresOnMangas[]
+  origin     Origin?          @relation(fields: [origin_id], references: [id])
+  origin_id  String?
+  views      Int              @default(0)
+  image_url  String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
+  created_at DateTime         @default(now())
 
   @@map("mangas")
 }
@@ -56,15 +56,16 @@ model GenresOnMangas {
 }
 
 model Chapter {
-  id       String  @id @default(uuid())
-  title    String
-  slug     String  @unique
-  volume   Int
-  chapter  Int
-  pages    Page[]
-  manga    Manga?  @relation(fields: [manga_id], references: [id])
-  manga_id String?
-  views    Int
+  id         String   @id @default(uuid())
+  title      String
+  slug       String   @unique
+  volume     Int
+  chapter    Int
+  pages      Page[]
+  manga      Manga?   @relation(fields: [manga_id], references: [id])
+  manga_id   String?
+  views      Int
+  created_at DateTime @default(now())
 
   @@map("chapters")
 }
