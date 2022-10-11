@@ -20,19 +20,35 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             slug,
             image_url: urls[0],
         }
-    })
+    }).catch(() => { })
+
+    if (!newManga) {
+        return res.json({ error: 'Titúlo de manga já existente!' })
+    }
 
     genres.split(';').map(async (genre: string) => {
         let connect = await prisma.genre.findFirst({ where: { slug: genre } });
-        if (!connect) {
-            return res.json({ error: 'Gênero/s inválidos!' })
+        if (connect) {
+            await prisma.genresOnMangas.create({
+                data: {
+                    manga_id: newManga.id,
+                    genre_id: connect.id
+                }
+            })
+        } else {
+            let newGenre = await prisma.genre.create({
+                data: {
+                    name: genre[0].toUpperCase() + genre.substring(1),
+                    slug: genre
+                }
+            })
+            await prisma.genresOnMangas.create({
+                data: {
+                    manga_id: newManga.id,
+                    genre_id: newGenre.id
+                }
+            })
         }
-        await prisma.genresOnMangas.create({
-            data: {
-                manga_id: newManga.id,
-                genre_id: connect.id
-            }
-        })
     })
 
     return res.json({ newManga })

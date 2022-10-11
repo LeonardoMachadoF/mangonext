@@ -41,6 +41,7 @@ model Manga {
   views      Int              @default(0)
   image_url  String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
   created_at DateTime         @default(now())
+  is_manga   Boolean?         @default(true)
 
   @@map("mangas")
 }
