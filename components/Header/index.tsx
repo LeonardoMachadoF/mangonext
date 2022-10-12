@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Bell, DownloadSimple, List, MagnifyingGlass, X } from 'phosphor-react'
 import { ChangeEvent, Dispatch, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useThemeContext } from '../../contexts/colorContext/hook';
@@ -43,13 +44,12 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
                     onClick={() => setMenuOpen(!menuOpen)} style={{ cursor: 'pointer' }}
                 />
 
-                <div
-                    onClick={() => setTheme()}
+                <Link href='/'
                     className={styles.logoTitle}
                     style={{ display: searchOpen ? 'none' : 'block' }}
                 >
                     Logo
-                </div>
+                </Link>
             </div>
             <div className={styles.searchArea}>
 

@@ -56,6 +56,10 @@
     margin-left: 20px;
 }
 
+.logoTitle {
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
     .toggle {
         display: none;

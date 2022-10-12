@@ -10,7 +10,7 @@ import { Trending } from '../components/Trending'
 import { useThemeContext } from '../contexts/colorContext/hook'
 import styles from '../styles/Home.module.css'
 import prisma from '../src/libs/prisma';
-import { GenresOnMangas, Origin, PrismaClient } from '@prisma/client'
+import { Chapter, GenresOnMangas, Origin, PrismaClient } from '@prisma/client'
 
 const Home = ({ mangas }: Props) => {
     const { theme } = useThemeContext();
@@ -86,10 +86,16 @@ type Props = {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const prisma = new PrismaClient();
     let raw = await prisma.manga.findMany({ include: { chapters: true, genres: true, origin: true } });
     let mangas = JSON.parse(JSON.stringify(raw))
-    mangas.map((manga: any) => manga.chapters.sort((a: any, b: any) => a.title > b.title ? -1 : 1))
+    mangas.map((manga: any) => manga.chapters.sort((a: Chapter, b: Chapter) => {
+        if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
+            return -1
+        } else {
+            return 1
+        }
+    }))
+
     return {
         props: { mangas }
     }
