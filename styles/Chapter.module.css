@@ -1,0 +1,11 @@
+.image {
+    min-height: 440px;
+    height: fit-content;
+}
+
+
+@media (max-width: 990px) {
+    .main {
+        width: 98% !important;
+    }
+}

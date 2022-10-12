@@ -1,4 +1,5 @@
 import { Chapter, Page } from '@prisma/client';
+import styles from '../../styles/Chapter.module.css'
 import { GetServerSideProps } from 'next';
 import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useRef, useState } from 'react';
 import { Aside } from '../../components/Aside';
@@ -16,14 +17,14 @@ const Manga = ({ chapter }: Props) => {
             <div style={{ paddingTop: '90px' }}>
                 {chapter.pages.map((page, index) => {
                     return (
-                        <div key={page.id} style={{
+                        <div key={page.id} className={styles.main} style={{
                             margin: 'auto',
                             maxWidth: '1200px',
                             width: '80%',
 
                         }}>
-                            <div style={{}}>
-                                <img src={page.url} style={{ width: '100%', height: 'fit-content' }} alt='' loading={index < 2 ? 'eager' : 'lazy'} />
+                            <div className={styles.image}>
+                                <img src={page.url} style={{ width: '100%', height: 'fit-content !important' }} alt='' loading={index < 1 ? 'eager' : 'lazy'} />
                             </div>
                         </div>
                     )
