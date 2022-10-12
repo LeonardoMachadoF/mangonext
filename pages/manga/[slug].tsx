@@ -57,7 +57,7 @@ const Manga = ({ manga }: Props) => {
                             <main className={styles.contentMain}>
                                 <div className={styles.upperArea}>
                                     <div className={styles.contentImg}>
-                                        <Image src={manga.image_url} alt="" width={245} height={350} />
+                                        <img src={manga.image_url} alt="" />
                                     </div>
                                     <div className={styles.mangaInfo}>
                                         <div className={styles.status}>

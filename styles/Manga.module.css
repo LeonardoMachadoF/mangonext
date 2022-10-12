@@ -34,6 +34,11 @@
     gap: 22px;
 }
 
+.contentImg img {
+    max-width: 245px;
+    max-height: 350px;
+}
+
 .chapters {
     margin-top: 100px;
 }
@@ -120,5 +125,11 @@
     .genre {
         padding: 2px 2px;
         font-size: 12px;
+    }
+}
+
+@media(max-width: 470px) {
+    .contentImg img {
+        width: 105px;
     }
 }

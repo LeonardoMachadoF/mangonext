@@ -4,7 +4,8 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: [
-      "f004.backblazeb2.com"
+      "f004.backblazeb2.com",
+      "https://f004.backblazeb2.com"
     ],
   },
 }
