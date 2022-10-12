@@ -8,7 +8,6 @@ import prisma from '../../src/libs/prisma'
 
 
 const Manga = ({ chapter }: Props) => {
-    const imageRef = useRef<DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> | null>(null)
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div>
@@ -23,7 +22,7 @@ const Manga = ({ chapter }: Props) => {
                     }}>
                         <>
                             <div style={{ minHeight: '320px' }}>
-                                {index < 1 ? <img src={page.url} style={{ width: '100%' }} alt='' /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
+                                {index < 1 ? <img src={page.url} height={'fit-content'} style={{ width: '100%' }} alt='' /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
                             </div>
                         </>
 

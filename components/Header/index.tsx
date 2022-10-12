@@ -10,7 +10,7 @@ type Props = {
     absolute?: boolean;
 }
 
-export const Header = ({ menuOpen, setMenuOpen, absolute }: Props) => {
+export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
     const { theme, setTheme } = useThemeContext();
     const inputRef = useRef<any>(null);
     const [mobile, setMobile] = useState(false);

@@ -39,7 +39,7 @@ const Home = ({ mangas }: Props) => {
             <div className={styles.container} >
                 <Header setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
                 <div className={styles.mainArea} style={{ marginLeft: menuOpen ? '240px' : 'auto', marginRight: menuOpen ? '0px' : 'auto' }}>
-                    <Aside menuOpen={menuOpen} absolute={true} />
+                    <Aside menuOpen={menuOpen} />
 
                     <main className={styles.contentArea}>
                         <Trending title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
