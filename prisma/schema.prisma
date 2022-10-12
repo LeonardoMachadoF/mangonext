@@ -45,6 +45,9 @@ model Manga {
   is_manga   Boolean?         @default(true)
   scan       Scan?            @relation(fields: [scan_id], references: [id])
   scan_id    String?
+  status     String           @default("ongoing")
+  author     String?
+  artist     String?
 
   @@map("mangas")
 }

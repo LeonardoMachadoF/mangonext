@@ -1,0 +1,19 @@
+.chapter {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    height: 60px;
+}
+
+.volume {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .chapter {
+        flex-direction: column;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+}
