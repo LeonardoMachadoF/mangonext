@@ -85,14 +85,13 @@ type Props = {
     }[]
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const prisma = new PrismaClient();
     let raw = await prisma.manga.findMany({ include: { chapters: true, genres: true, origin: true } });
     let mangas = JSON.parse(JSON.stringify(raw))
     mangas.map((manga: any) => manga.chapters.sort((a: any, b: any) => a.title > b.title ? -1 : 1))
     return {
-        props: { mangas },
-        revalidate: 60 * 30
+        props: { mangas }
     }
 }
 
