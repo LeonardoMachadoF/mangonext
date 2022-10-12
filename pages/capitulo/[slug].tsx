@@ -13,22 +13,22 @@ const Manga = ({ chapter }: Props) => {
         <div>
             <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} absolute={true} />
             <Aside menuOpen={menuOpen} absolute={true} />
-            {chapter.pages.map((page, index) => {
-                return (
-                    <div key={page.id} style={{
-                        margin: 'auto',
-                        maxWidth: '1200px',
-                        width: '80%'
-                    }}>
-                        <>
-                            <div style={{ minHeight: '320px' }}>
-                                {index < 1 ? <img src={page.url} height={'fit-content'} style={{ width: '100%' }} alt='' /> : <img src={page.url} style={{ width: '100%' }} alt='' loading="lazy" />}
-                            </div>
-                        </>
+            <div style={{ paddingTop: '90px' }}>
+                {chapter.pages.map((page, index) => {
+                    return (
+                        <div key={page.id} style={{
+                            margin: 'auto',
+                            maxWidth: '1200px',
+                            width: '80%',
 
-                    </div>
-                )
-            })}
+                        }}>
+                            <div style={{}}>
+                                <img src={page.url} style={{ width: '100%', height: 'fit-content' }} alt='' loading={index < 2 ? 'eager' : 'lazy'} />
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }

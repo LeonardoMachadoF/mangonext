@@ -10,7 +10,7 @@ import { Trending } from '../components/Trending'
 import { useThemeContext } from '../contexts/colorContext/hook'
 import styles from '../styles/Home.module.css'
 import prisma from '../src/libs/prisma';
-import { Chapter, GenresOnMangas, Origin, PrismaClient } from '@prisma/client'
+import { Chapter, GenresOnMangas, Origin } from '@prisma/client'
 
 const Home = ({ mangas }: Props) => {
     const { theme } = useThemeContext();

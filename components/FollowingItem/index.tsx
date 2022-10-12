@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useThemeContext } from '../../contexts/colorContext/hook'
+import { getTimePast } from '../../src/libs/timeUtils'
 import styles from './styles.module.css'
 
 type Props = {
@@ -13,12 +14,9 @@ type Props = {
 
 export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props) => {
     const { theme } = useThemeContext();
-    let lastChapterDate = 0;
-    let now = new Date(Date.now());
+    let lastChapterDate: string = '';
     if (lastChapter) {
-        let newDate = new Date(lastChapter.created_at);
-        lastChapterDate = newDate.getTime();
-        lastChapterDate = ((now.getTime() - lastChapterDate) / 1000 / 60 / 60)
+        lastChapterDate = getTimePast(lastChapter.created_at)
     }
 
 
@@ -41,7 +39,7 @@ export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props)
                         }
                         <small style={{ marginLeft: '10px' }}>Amadeus Scans</small>
                     </div>
-                    <small>{(lastChapterDate / 60 * 100).toFixed(0)} {(lastChapterDate / 60 * 100) >= 2 ? 'horas' : 'hora'} atrás</small>
+                    <small>{lastChapterDate}</small>
                 </div>
             </div>
         </div >

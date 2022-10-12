@@ -1,6 +1,7 @@
 import { Chapter } from "@prisma/client"
 import Link from "next/link";
 import { ArrowDown } from "phosphor-react";
+import { getTimePast } from "../../src/libs/timeUtils";
 import styles from './styles.module.css'
 type Props = {
     today: Date;
@@ -34,7 +35,7 @@ export const ChapterInfoComponent = ({ volume, today, mangaScan, chapters, activ
                                             <span className={styles.scan}>{mangaScan && mangaScan}</span>
                                         </div>
                                         <div className={styles.chapterRelease}>
-                                            Há {((today.getTime() - new Date(chapter.created_at).getTime()) / 1000 / 60 / 60).toFixed(0)}h
+                                            {getTimePast(chapter.created_at)}
                                         </div>
                                     </article>
                                 )
