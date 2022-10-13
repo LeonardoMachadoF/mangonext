@@ -10,7 +10,7 @@ const handler = nc();
 handler.use(upload.array('img', 1))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let { title, genres, sinopse, author, artist, scan_slug } = req.body;
+    let { title, genres, sinopse, author, artist } = req.body;
     let slug = title.split(' ').join('-').toLowerCase().split('?').join('');
     let credentials = await storageApi.getCredentials();
     let { urls } = await storageApi.uploadChapterPages(credentials, [...req.files], slug)
