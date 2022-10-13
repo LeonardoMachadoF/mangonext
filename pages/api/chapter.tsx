@@ -10,7 +10,7 @@ import { requestValidator } from '../../src/libs/requestValidator';
 export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();
-handler.use(upload.array('imgs', 100))
+handler.use(upload.array('imgs', 150))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     let { manga, volume, chapter, manga_id, title, error } = await requestValidator(req.body);
@@ -82,6 +82,25 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 
 
     return res.json({ status: 'success' })
+})
+
+
+
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+    let { views, chapter_id } = req.body;
+    if (views) {
+        await prisma.chapter.update({
+            where: {
+                id: chapter_id
+            },
+            data: {
+                views: {
+                    increment: 1
+                }
+            }
+        })
+    }
+    res.json({})
 })
 
 export default handler;

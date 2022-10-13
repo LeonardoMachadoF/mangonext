@@ -1,14 +1,25 @@
 import { Chapter, Page } from '@prisma/client';
 import styles from '../../styles/Chapter.module.css'
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
-import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useRef, useState } from 'react';
+import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useEffect, useRef, useState } from 'react';
 import { Aside } from '../../components/Aside';
 import { Header } from '../../components/Header';
 import prisma from '../../src/libs/prisma'
+import axios from 'axios';
 
 
 
 const Manga = ({ chapter }: Props) => {
+    useEffect(() => {
+        const addView = async () => {
+            let formData = new FormData();
+            formData.append('views', 'true');
+            formData.append('chapter_id', chapter.id)
+            let res = await axios.put(`/api/chapter`, formData)
+        }
+
+        addView()
+    }, [])
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div>

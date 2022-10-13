@@ -1,8 +1,10 @@
-.image {
+.image img {
     min-height: 440px;
-    height: fit-content;
 }
 
+.image img {
+    height: unset;
+}
 
 @media (max-width: 990px) {
     .main {

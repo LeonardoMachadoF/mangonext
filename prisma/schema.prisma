@@ -14,7 +14,7 @@ datasource db {
 
 model Origin {
   id     String  @id @default(uuid())
-  slug   String
+  slug   String  @unique
   name   String
   mangas Manga[]
 
@@ -43,8 +43,6 @@ model Manga {
   image_url  String           @default("http://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-200x200.png")
   created_at DateTime         @default(now())
   is_manga   Boolean?         @default(true)
-  scan       Scan?            @relation(fields: [scan_id], references: [id])
-  scan_id    String?
   status     String           @default("ongoing")
   author     String?
   artist     String?
@@ -53,11 +51,11 @@ model Manga {
 }
 
 model Scan {
-  id     String  @id @default(uuid())
-  slug   String  @unique
-  name   String
-  href   String?
-  mangas Manga[]
+  id      String    @id @default(uuid())
+  slug    String    @unique
+  name    String
+  href    String?
+  Chapter Chapter[]
 
   @@map("scans")
 }
@@ -83,6 +81,8 @@ model Chapter {
   manga_id   String?
   views      Int
   created_at DateTime @default(now())
+  scan       Scan?    @relation(fields: [scan_id], references: [id])
+  scan_id    String?
 
   @@map("chapters")
 }

@@ -1,4 +1,5 @@
 import { Chapter, GenresOnMangas, Manga, Origin, Scan } from "@prisma/client";
+import axios from "axios";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -24,6 +25,15 @@ const Manga = ({ manga }: Props) => {
     });
     const [activeVolume, setActiveVolume] = useState(volumes[0]);
 
+    useEffect(() => {
+        const addView = async () => {
+            let formData = new FormData();
+            formData.append('views', 'true');
+            formData.append('manga_id', manga.id)
+            await axios.put(`/api/manga`, formData)
+        }
+        addView()
+    }, [])
     return (
         <div className={styles.container} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
@@ -203,12 +213,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
     let { slug } = ctx.params!;
-    let raw = await prisma.manga.update({
+    let raw = await prisma.manga.findFirst({
         where: {
             slug: slug as string
-        },
-        data: {
-            views: { increment: 1 }
         },
         include: {
             chapters: true,

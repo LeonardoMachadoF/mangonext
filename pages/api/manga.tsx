@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { upload } from "../../src/libs/multerConfig";
 import { NextApiRequestWithFiles } from '../../src/types/ExtendedRequestWithFiles';
 import prisma from '../../src/libs/prisma'
@@ -10,7 +10,7 @@ const handler = nc();
 handler.use(upload.array('img', 1))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let { title, genres, sinopse } = req.body;
+    let { title, genres, sinopse, author, artist, scan_slug } = req.body;
     let slug = title.split(' ').join('-').toLowerCase().split('?').join('');
     let credentials = await storageApi.getCredentials();
     let { urls } = await storageApi.uploadChapterPages(credentials, [...req.files], slug)
@@ -19,7 +19,9 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
             title,
             slug,
             image_url: urls[0],
-            sinopse: sinopse as string
+            sinopse: sinopse as string,
+            author: author as string,
+            artist: artist as string,
         }
     })
 
@@ -55,5 +57,17 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     return res.json({ newManga })
 })
 
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+    let { views, manga_id } = req.body;
+    if (views) {
+        await prisma.manga.update({
+            where: { id: manga_id },
+            data: {
+                views: { increment: 1 }
+            }
+        })
+    }
+    res.json({})
+})
 
 export default handler;
