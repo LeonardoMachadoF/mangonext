@@ -1,5 +1,5 @@
 import { Chapter, GenresOnMangas, Manga, Origin, Scan } from "@prisma/client";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { CloudArrowDown, PencilSimple, SquaresFour } from "phosphor-react";
@@ -145,8 +145,60 @@ type Props = {
     })
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    let { slug } = ctx.query;
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//     let { slug } = ctx.query;
+//     let raw = await prisma.manga.update({
+//         where: {
+//             slug: slug as string
+//         },
+//         data: {
+//             views: { increment: 1 }
+//         },
+//         include: {
+//             chapters: true,
+//             genres: {
+//                 include: {
+//                     genre: {
+//                         select: {
+//                             name: true,
+//                             slug: true
+//                         }
+//                     }
+//                 }
+//             },
+//             origin: true,
+//             scan: true
+//         }
+//     })
+//     let manga = JSON.parse(JSON.stringify(raw))
+//     manga.chapters.sort((a: Chapter, b: Chapter) => {
+//         if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
+//             return -1
+//         } else {
+//             return 1
+//         }
+
+//     })
+
+//     manga.status = 'ongoing'
+//     return {
+//         props: {
+//             manga
+//         }
+//     }
+// }
+
+
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    return {
+        paths: [],
+        fallback: 'blocking'
+    }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+    let { slug } = ctx.params!;
     let raw = await prisma.manga.update({
         where: {
             slug: slug as string
@@ -187,6 +239,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
     }
 }
-
 
 export default Manga;
