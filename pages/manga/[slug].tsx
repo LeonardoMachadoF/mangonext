@@ -229,8 +229,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
                     }
                 }
             },
-            origin: true,
-            scan: true
+            origin: true
         }
     })
     let manga = JSON.parse(JSON.stringify(raw))
