@@ -240,7 +240,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return {
         props: {
             manga,
-            revalidate: 60 * 60 * 3
+            revalidate: 60 * 60 * 2
         }
     }
 }
