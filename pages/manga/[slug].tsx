@@ -191,8 +191,12 @@ type Props = {
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
+    let slugs = await prisma.manga.findMany({ select: { slug: true } });
+    let paths: { params: { slug: string } }[] = []
+    slugs.map(i => paths.push({ params: { slug: i.slug } }))
+
     return {
-        paths: [],
+        paths: paths,
         fallback: 'blocking'
     }
 }
@@ -235,7 +239,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     manga.status = 'ongoing'
     return {
         props: {
-            manga
+            manga,
+            revalidate: 60 * 60 * 3
         }
     }
 }
