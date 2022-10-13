@@ -1,6 +1,6 @@
 import { Chapter, Page } from '@prisma/client';
 import styles from '../../styles/Chapter.module.css'
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useRef, useState } from 'react';
 import { Aside } from '../../components/Aside';
 import { Header } from '../../components/Header';
@@ -40,8 +40,15 @@ type Props = {
     })
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    let raw = await prisma.chapter.findFirst({ where: { slug: ctx.query.slug as string }, include: { pages: true } })
+export const getStaticPaths: GetStaticPaths = async () => {
+    return {
+        paths: [],
+        fallback: 'blocking'
+    }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+    let raw = await prisma.chapter.findFirst({ where: { slug: ctx.params!.slug as string }, include: { pages: true } })
     let chapter = JSON.parse(JSON.stringify(raw))
     chapter.pages.sort((a: Page, b: Page) => {
         if (a.file_name.split('chapter-')[1].split('/')[1].split('.') > b.file_name.split('chapter-')[1].split('/')[1].split('.')) {
