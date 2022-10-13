@@ -22,7 +22,9 @@ export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props)
 
     return (
         <div className={styles.followingItem} style={{ backgroundColor: theme.secondaryColor }}>
-            <img src={imgUrl} alt="" />
+            <div className={styles.img}>
+                <img src={imgUrl} alt="" />
+            </div>
             <div className={styles.followingInfo}>
                 <Link href={href}>{title}</Link>
                 <div className={styles.desc}>

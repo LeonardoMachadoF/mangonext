@@ -5,9 +5,14 @@
     border-top: 2px solid #000;
 }
 
-.followingItem img {
-    width: 94px;
+.img {
+    width: 100px;
 }
+
+.img img {
+    width: 100%;
+}
+
 
 .followingInfo {
     display: flex;
