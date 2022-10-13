@@ -82,7 +82,7 @@ const Manga = ({ manga }: Props) => {
                                             </span>
                                             <p>Autor: {manga.author ? manga.author : 'John Doe'}</p>
                                         </div>
-                                        <div className={styles.status}>
+                                        <div className={styles.genres}>
                                             {manga.genres.map(genre => {
                                                 return (
                                                     <div key={genre.id} className={styles.genre}>
