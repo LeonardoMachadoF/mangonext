@@ -12,8 +12,7 @@
 
 @media (max-width: 600px) {
     .chapter {
-        flex-direction: column;
-        margin-bottom: 20px;
+
         font-size: 14px;
     }
 }

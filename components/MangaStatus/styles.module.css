@@ -8,3 +8,16 @@
     line-height: 30px;
     white-space: nowrap;
 }
+
+@media(max-width: 590px) {
+    .status p {
+        white-space: normal;
+        font-size: 14px;
+        padding-right: 4px;
+        line-height: 14px;
+    }
+
+    .status {
+        width: 184px;
+    }
+}
