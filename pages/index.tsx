@@ -42,7 +42,7 @@ const Home = ({ mangas }: Props) => {
                     <Aside menuOpen={menuOpen} />
 
                     <main className={styles.contentArea}>
-                        <Trending title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
+                        <Trending mangas={mangas} title='Em alta' icon={<TrendUp size={24} color={theme.iconColor} />} />
 
                         <div className={styles.following} >
                             <div className={styles.followingIcon}>
@@ -56,8 +56,6 @@ const Home = ({ mangas }: Props) => {
 
                             </div>
                         </div>
-
-                        <Trending title='Talvez você possa gostar desses' icon={<Lightbulb size={24} color={theme.iconColor} />} />
 
                     </main>
                 </div>

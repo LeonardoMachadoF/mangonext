@@ -35,7 +35,7 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
     }
     return (
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor, position: absolute ? 'absolute' : 'fixed' }}>
-            <div className={styles.logo} style={{ width: searchOpen ? '50px' : '' }}>
+            <nav className={styles.logo} style={{ width: searchOpen ? '50px' : '' }}>
 
                 <List
                     size={24}
@@ -50,7 +50,7 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
                 >
                     Logo
                 </Link>
-            </div>
+            </nav>
             <div className={styles.searchArea}>
 
                 <div className={styles.searchBar} style={{ width: searchOpen ? '100%' : (mobile ? 'fit-content' : '100%') }}>
