@@ -1,12 +1,14 @@
+import Link from 'next/link';
 import styles from './styles.module.css'
 
 type Props = {
     title: string;
     timePast: string;
-    img: string
+    img: string;
+    mangaSlug: string;
 }
 
-export const TrendingItem = ({ title, timePast, img }: Props) => {
+export const TrendingItem = ({ title, timePast, img, mangaSlug }: Props) => {
     return (
         <div className={styles.trendingItem}>
             <div
@@ -17,7 +19,7 @@ export const TrendingItem = ({ title, timePast, img }: Props) => {
             </div>
 
             <div className={styles.trendingInfo}>
-                <div className={styles.trendingTitle}>{title}</div>
+                <Link href={`/manga/${mangaSlug}`} className={styles.trendingTitle}>{title}</Link>
                 <div className={styles.trendingSmall}>
                     <small>{timePast}</small>
                     <small>Línguas 🇰🇷</small>

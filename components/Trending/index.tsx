@@ -49,6 +49,7 @@ export const Trending = ({ mangas, title, icon }: Props) => {
                                 title={manga.title}
                                 timePast={getTimePast(manga.created_at)}
                                 img={manga.image_url}
+                                mangaSlug={manga.slug}
                             />
                         )
                     })}
