@@ -60,16 +60,6 @@
     gap: 12px;
 }
 
-.status {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.status p {
-    line-height: 30px;
-    white-space: nowrap;
-}
 
 .genres {
     display: flex;
@@ -89,7 +79,7 @@
 .sinopse {
     font-weight: 400;
     font-size: 16px;
-    margin-top: -180px;
+    margin-top: -150px;
     width: 60%;
     margin-left: 260px;
 

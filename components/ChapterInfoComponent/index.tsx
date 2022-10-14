@@ -4,7 +4,6 @@ import { ArrowDown } from "phosphor-react";
 import { getTimePast } from "../../src/libs/timeUtils";
 import styles from './styles.module.css'
 type Props = {
-    today: Date;
     mangaScan?: string;
     chapters: (Chapter | undefined)[];
     volume: number;
@@ -12,7 +11,7 @@ type Props = {
     setActiveVolume: (volume: number) => void;
 }
 
-export const ChapterInfoComponent = ({ volume, today, mangaScan, chapters, activeVolume, setActiveVolume }: Props) => {
+export const ChapterInfoComponent = ({ volume, mangaScan, chapters, activeVolume, setActiveVolume }: Props) => {
     const handleVolumeChange = () => {
         (volume === activeVolume)
             ? setActiveVolume(0)

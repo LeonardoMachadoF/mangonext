@@ -6,6 +6,7 @@ import { Aside } from '../../components/Aside';
 import { Header } from '../../components/Header';
 import prisma from '../../src/libs/prisma'
 import axios from 'axios';
+import Head from 'next/head';
 
 
 
@@ -23,6 +24,9 @@ const Manga = ({ chapter }: Props) => {
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div>
+            <Head>
+                <title>{`Capítulo ${chapter.chapter} - ${chapter.manga?.title}`}</title>
+            </Head>
             <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} absolute={true} />
             <Aside menuOpen={menuOpen} absolute={true} />
             <div style={{ paddingTop: '90px' }}>
@@ -48,6 +52,9 @@ const Manga = ({ chapter }: Props) => {
 type Props = {
     chapter: (Chapter & {
         pages: Page[];
+        manga: {
+            title: string;
+        } | null;
     })
 }
 
@@ -59,7 +66,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-    let raw = await prisma.chapter.findFirst({ where: { slug: ctx.params!.slug as string }, include: { pages: true } })
+    let raw = await prisma.chapter.findFirst({ where: { slug: ctx.params!.slug as string }, include: { pages: true, manga: { select: { title: true, } } } })
     let chapter = JSON.parse(JSON.stringify(raw))
     chapter.pages.sort((a: Page, b: Page) => {
         if (a.file_name.split('chapter-')[1].split('/')[1].split('.') > b.file_name.split('chapter-')[1].split('/')[1].split('.')) {

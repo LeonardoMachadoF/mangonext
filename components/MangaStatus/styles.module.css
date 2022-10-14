@@ -1,0 +1,10 @@
+.status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status p {
+    line-height: 30px;
+    white-space: nowrap;
+}

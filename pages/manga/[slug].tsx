@@ -9,15 +9,15 @@ import { Aside } from "../../components/Aside";
 import { ChapterInfoComponent } from "../../components/ChapterInfoComponent";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
+import { MangaStatus } from "../../components/MangaStatus";
 import { useThemeContext } from "../../contexts/colorContext/hook";
 import prisma from '../../src/libs/prisma'
+import { getTimePast } from "../../src/libs/timeUtils";
 import styles from '../../styles/Manga.module.css'
 
 const Manga = ({ manga }: Props) => {
     const { theme } = useThemeContext();
     const [menuOpen, setMenuOpen] = useState(false);
-    let lastRelease = new Date(manga.chapters[0].created_at);
-    let today = new Date(Date.now());
     const volumes: number[] = [];
     manga.chapters.map((chapter: Chapter) => {
         if (volumes.indexOf(chapter.volume) === -1)
@@ -34,6 +34,7 @@ const Manga = ({ manga }: Props) => {
         }
         addView()
     }, [])
+
     return (
         <div className={styles.container} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
@@ -65,33 +66,14 @@ const Manga = ({ manga }: Props) => {
                                 {manga.is_manga ? 'Mangas' : 'Novels'} » {manga.title}
                             </nav>
                             <main className={styles.contentMain}>
-                                <div className={styles.upperArea}>
+                                <section className={styles.upperArea}>
                                     <div className={styles.contentImg}>
                                         <img src={manga.image_url} alt="" />
                                     </div>
-                                    <div className={styles.mangaInfo}>
-                                        <div className={styles.status}>
-
-                                            <span className={styles.icon}>
-                                                <SquaresFour size={26} />
-                                            </span>
-                                            <p>Status: {manga.status === 'ongoing' ? 'Em lançamento' : 'Completo'}</p>
-
-                                        </div>
-                                        <div className={styles.status}>
-
-                                            <span className={styles.icon}>
-                                                <CloudArrowDown size={24} />
-                                            </span>
-                                            <p>Último lançamento: {((today.getTime() - lastRelease.getTime()) / 1000 / 60 / 60).toFixed(0)} Horas Atrás</p>
-                                        </div>
-                                        <div className={styles.status}>
-
-                                            <span className={styles.icon}>
-                                                <PencilSimple weight="fill" size={24} />
-                                            </span>
-                                            <p>Autor: {manga.author ? manga.author : 'John Doe'}</p>
-                                        </div>
+                                    <article className={styles.mangaInfo}>
+                                        <MangaStatus title='status' mangaStatus={manga.status === 'ongoing' ? 'Em lançamento' : 'Completo'} icon='status' />
+                                        <MangaStatus title='Último lançamento' mangaStatus={getTimePast(manga.created_at)} icon='lastRelease' />
+                                        <MangaStatus title='Author' mangaStatus={manga.author ? manga.author : 'John Doe'} icon='author' />
                                         <div className={styles.genres}>
                                             {manga.genres.map(genre => {
                                                 return (
@@ -101,8 +83,8 @@ const Manga = ({ manga }: Props) => {
                                                 )
                                             })}
                                         </div>
-                                    </div>
-                                </div>
+                                    </article>
+                                </section>
                                 <div className={styles.sinopse}>
                                     {manga.sinopse}
                                 </div>
@@ -122,7 +104,6 @@ const Manga = ({ manga }: Props) => {
                                                 return chapter
                                             }
                                         })}
-                                        today={today}
                                         mangaScan={manga.scan?.name}
                                         activeVolume={activeVolume}
                                         setActiveVolume={setActiveVolume}
