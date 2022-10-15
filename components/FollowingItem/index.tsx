@@ -1,3 +1,4 @@
+import { Chapter, Scan } from '@prisma/client'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useThemeContext } from '../../contexts/colorContext/hook'
@@ -9,7 +10,9 @@ type Props = {
     desc: string;
     imgUrl: string;
     href: string;
-    lastChapter: any;
+    lastChapter: (Chapter & {
+        scan: Scan | null;
+    });
 }
 
 export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props) => {
@@ -39,7 +42,7 @@ export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props)
                                 </a>
                             </Link>
                         }
-                        <small style={{ marginLeft: '10px' }}>Amadeus Scans</small>
+                        <small style={{ marginLeft: '10px' }}>{lastChapter.scan ? lastChapter.scan.name : 'Random Scans'}</small>
                     </div>
                     <small>{lastChapterDate}</small>
                 </div>

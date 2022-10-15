@@ -10,7 +10,7 @@ import { Trending } from '../components/Trending'
 import { useThemeContext } from '../contexts/colorContext/hook'
 import styles from '../styles/Home.module.css'
 import prisma from '../src/libs/prisma';
-import { Chapter, GenresOnMangas, Origin } from '@prisma/client'
+import { Chapter, GenresOnMangas, Manga, Origin, Scan } from '@prisma/client'
 
 const Home = ({ mangas }: Props) => {
     const { theme } = useThemeContext();
@@ -53,7 +53,6 @@ const Home = ({ mangas }: Props) => {
                                 {mangas.map((manga) => {
                                     return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/manga/${manga.slug}`} lastChapter={manga.chapters[0]} />
                                 })}
-
                             </div>
                         </div>
 
@@ -67,24 +66,17 @@ const Home = ({ mangas }: Props) => {
 }
 
 type Props = {
-    mangas: {
-        created_at: any;
-        chapters: any[];
-        id: string;
-        title: string;
-        slug: string;
-        sinopse: string;
-        origin_id: string | null;
-        views: number;
-        image_url: string;
-        is_manga: boolean | null;
+    mangas: (Manga & {
+        chapters: (Chapter & {
+            scan: Scan | null;
+        })[];
         genres: GenresOnMangas[];
         origin: Origin | null;
-    }[]
+    })[]
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-    let raw = await prisma.manga.findMany({ include: { chapters: true, genres: true, origin: true } });
+    let raw = await prisma.manga.findMany({ include: { chapters: { include: { scan: true } }, genres: true, origin: true } });
     let mangas = JSON.parse(JSON.stringify(raw))
     mangas.map((manga: any) => manga.chapters.sort((a: Chapter, b: Chapter) => {
         if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
