@@ -2,8 +2,8 @@ import { Chapter, Page } from '@prisma/client';
 import styles from '../../styles/Chapter.module.css'
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useEffect, useRef, useState } from 'react';
-import { Aside } from '../../components/Aside';
-import { Header } from '../../components/Header';
+import { Aside } from '../../src/components/Aside';
+import { Header } from '../../src/components/Header';
 import prisma from '../../src/libs/prisma'
 import axios from 'axios';
 import Head from 'next/head';

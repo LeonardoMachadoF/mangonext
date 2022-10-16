@@ -1,16 +1,16 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps } from 'next'
 import Head from 'next/head'
-import { FileArrowUp, Lightbulb, TrendUp } from 'phosphor-react'
+import { FileArrowUp, TrendUp } from 'phosphor-react'
 import { useState } from 'react'
-import { Aside } from '../components/Aside'
-import { FollowingItem } from '../components/FollowingItem'
-import { Footer } from '../components/Footer'
-import { Header } from '../components/Header'
-import { Trending } from '../components/Trending'
-import { useThemeContext } from '../contexts/colorContext/hook'
+import { Aside } from '../src/components/Aside'
+import { FollowingItem } from '../src/components/FollowingItem'
+import { Footer } from '../src/components/Footer'
+import { Header } from '../src/components/Header'
+import { Trending } from '../src/components/Trending'
 import styles from '../styles/Home.module.css'
 import prisma from '../src/libs/prisma';
 import { Chapter, GenresOnMangas, Manga, Origin, Scan } from '@prisma/client'
+import { useThemeContext } from '../src/contexts/colorContext/hook'
 
 const Home = ({ mangas }: Props) => {
     const { theme } = useThemeContext();
@@ -92,4 +92,4 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }
 }
 
-export default Home
+export default Home;

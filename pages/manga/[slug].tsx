@@ -3,14 +3,14 @@ import axios from "axios";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { CloudArrowDown, PencilSimple, SquaresFour } from "phosphor-react";
+import { CloudArrowDown, Divide, PencilSimple, SquaresFour } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { Aside } from "../../components/Aside";
-import { ChapterInfoComponent } from "../../components/ChapterInfoComponent";
-import { Footer } from "../../components/Footer";
-import { Header } from "../../components/Header";
-import { MangaStatus } from "../../components/MangaStatus";
-import { useThemeContext } from "../../contexts/colorContext/hook";
+import { Aside } from "../../src/components/Aside";
+import { ChapterInfoComponent } from "../../src/components/ChapterInfoComponent";
+import { Footer } from "../../src/components/Footer";
+import { Header } from "../../src/components/Header";
+import { MangaStatus } from "../../src/components/MangaStatus";
+import { useThemeContext } from "../../src/contexts/colorContext/hook";
 import prisma from '../../src/libs/prisma'
 import { getTimePast } from "../../src/libs/timeUtils";
 import styles from '../../styles/Manga.module.css'
@@ -24,6 +24,7 @@ const Manga = ({ manga }: Props) => {
             volumes.push(chapter.volume)
     });
     const [activeVolume, setActiveVolume] = useState(volumes[0]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const addView = async () => {
@@ -68,7 +69,8 @@ const Manga = ({ manga }: Props) => {
                             <main className={styles.contentMain}>
                                 <section className={styles.upperArea}>
                                     <div className={styles.contentImg}>
-                                        <img src={manga.image_url} alt="" />
+                                        <img src={manga.image_url} alt="" onLoad={() => setLoading(true)} loading='lazy' />
+                                        <div className={styles.ghost} style={{ opacity: loading ? '0' : '1' }}> </div>
                                     </div>
                                     <article className={styles.mangaInfo}>
                                         <MangaStatus title='status' mangaStatus={manga.status === 'ongoing' ? 'Em lançamento' : 'Completo'} icon='status' />

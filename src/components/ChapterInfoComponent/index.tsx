@@ -1,7 +1,7 @@
 import { Chapter } from "@prisma/client"
 import Link from "next/link";
 import { ArrowDown } from "phosphor-react";
-import { getTimePast } from "../../src/libs/timeUtils";
+import { getTimePast } from "../../libs/timeUtils"
 import styles from './styles.module.css'
 type Props = {
     mangaScan?: string;

@@ -3,7 +3,7 @@ import { CaretLeft, CaretRight, TrendUp } from 'phosphor-react'
 import { useState } from 'react';
 import { TrendingItem } from '../TrendingItem'
 import styles from './styles.module.css'
-import { getTimePast } from '../../src/libs/timeUtils'
+import { getTimePast } from '../../libs/timeUtils'
 
 type Props = {
     title: string,

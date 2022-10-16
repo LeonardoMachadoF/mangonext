@@ -2,7 +2,7 @@ import { Chapter, Scan } from '@prisma/client'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useThemeContext } from '../../contexts/colorContext/hook'
-import { getTimePast } from '../../src/libs/timeUtils'
+import { getTimePast } from '../../libs/timeUtils'
 import styles from './styles.module.css'
 
 type Props = {
