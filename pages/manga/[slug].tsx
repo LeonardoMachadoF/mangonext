@@ -11,6 +11,7 @@ import { Footer } from "../../src/components/Footer";
 import { Header } from "../../src/components/Header";
 import { MangaStatus } from "../../src/components/MangaStatus";
 import { useThemeContext } from "../../src/contexts/colorContext/hook";
+import { getCloudflareUrl } from "../../src/libs/getCloudflareUrl";
 import prisma from '../../src/libs/prisma'
 import { getTimePast } from "../../src/libs/timeUtils";
 import styles from '../../styles/Manga.module.css'
@@ -98,7 +99,7 @@ const Manga = ({ manga }: Props) => {
                             <main className={styles.contentMain}>
                                 <section className={styles.upperArea}>
                                     <div className={styles.contentImg}>
-                                        <img src={manga.image_url} alt="" onLoad={() => setLoading(true)} loading='lazy' />
+                                        <img src={getCloudflareUrl(manga.image_url)} alt="" onLoad={() => setLoading(true)} loading='lazy' />
                                         <div className={styles.ghost} style={{ opacity: loading ? '0' : '1' }}> </div>
                                     </div>
                                     <article className={styles.mangaInfo}>

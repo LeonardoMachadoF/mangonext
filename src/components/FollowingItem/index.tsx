@@ -2,6 +2,7 @@ import { Chapter, Scan } from '@prisma/client'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useThemeContext } from '../../contexts/colorContext/hook'
+import { getCloudflareUrl } from '../../libs/getCloudflareUrl'
 import { getTimePast } from '../../libs/timeUtils'
 import styles from './styles.module.css'
 
@@ -26,7 +27,7 @@ export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props)
     return (
         <div className={styles.followingItem} style={{ backgroundColor: theme.secondaryColor }}>
             <div className={styles.img}>
-                <img src={imgUrl} alt="" />
+                <img src={getCloudflareUrl(imgUrl)} alt="" />
             </div>
             <div className={styles.followingInfo}>
                 <Link href={href}>{title}</Link>

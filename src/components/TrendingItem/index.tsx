@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getCloudflareUrl } from '../../libs/getCloudflareUrl';
 import styles from './styles.module.css'
 
 type Props = {
@@ -11,11 +12,8 @@ type Props = {
 export const TrendingItem = ({ title, timePast, img, mangaSlug }: Props) => {
     return (
         <div className={styles.trendingItem}>
-            <div
-                className={styles.imageTrending}
-                style={{
-                    backgroundImage: `url("${img}")`
-                }}>
+            <div className={styles.imageTrending} >
+                <img src={getCloudflareUrl(img)} alt="" />
             </div>
 
             <div className={styles.trendingInfo}>

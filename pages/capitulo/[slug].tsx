@@ -8,6 +8,7 @@ import prisma from '../../src/libs/prisma'
 import axios from 'axios';
 import Head from 'next/head';
 import { useThemeContext } from '../../src/contexts/colorContext/hook';
+import { getCloudflareUrl } from '../../src/libs/getCloudflareUrl';
 
 
 
@@ -41,7 +42,7 @@ const Manga = ({ chapter }: Props) => {
 
                         }}>
                             <div className={styles.image}>
-                                <img src={page.url} style={{ width: '100%', height: 'fit-content !important' }} alt='' loading={index < 1 ? 'eager' : 'lazy'} />
+                                <img src={getCloudflareUrl(page.url)} style={{ width: '100%', height: 'fit-content !important' }} alt='' loading={index < 1 ? 'eager' : 'lazy'} />
                             </div>
                         </div>
                     )
