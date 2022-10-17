@@ -25,6 +25,9 @@ const Manga = ({ manga }: Props) => {
     });
     const [activeVolume, setActiveVolume] = useState(volumes[0]);
     const [loading, setLoading] = useState(false);
+    const [chapterList, setChapterList] = useState(manga.chapters);
+    const [sorted, setSorted] = useState(false);
+
 
     useEffect(() => {
         const addView = async () => {
@@ -36,10 +39,36 @@ const Manga = ({ manga }: Props) => {
         addView()
     }, [])
 
+    const handleClick = () => {
+        let copy = [...manga.chapters];
+        if (!sorted) {
+            console.log(volumes);
+            copy.sort((a: Chapter, b: Chapter) => {
+                if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
+                    return 1
+                } else {
+                    return -1
+                }
+            })
+        } else {
+            copy.sort((a: Chapter, b: Chapter) => {
+                if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
+                    return -1
+                } else {
+                    return 1
+                }
+            })
+        }
+
+        setChapterList(copy);
+        setActiveVolume(volumes[volumes.length - 1]);
+        setSorted(!sorted);
+    }
+
     return (
         <div className={styles.container} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
-                <title>{`${manga.title} - Mango Mangna`}</title>
+                <title>{`${manga.title} - Tenki Mangas`}</title>
                 <meta name="title" content="MangoMangna" />
                 <meta name="description" content="Um site mangas e novels, ainda em desenvolvimento." />
 
@@ -96,17 +125,36 @@ const Manga = ({ manga }: Props) => {
 
                         </div>
                         <section className={styles.chapters}>
-                            {volumes.map((i: number) => {
+                            <button className={styles.filters} onClick={handleClick}>
+                                {sorted ? 'Crescente' : 'Decrescente'}
+                            </button>
+                            {!sorted && volumes.map((i: number) => {
                                 return (
                                     <ChapterInfoComponent
                                         key={i}
                                         volume={i}
-                                        chapters={manga.chapters.map((chapter: Chapter) => {
+                                        chapters={manga.chapters.map((chapter: (Chapter & {
+                                            scan: Scan | null;
+                                        }) | any) => {
                                             if (chapter.volume === i) {
                                                 return chapter
                                             }
                                         })}
-                                        mangaScan={manga.scan?.name}
+                                        activeVolume={activeVolume}
+                                        setActiveVolume={setActiveVolume}
+                                    />
+                                )
+                            })}
+                            {sorted && volumes.reverse() && volumes.map((i: number) => {
+                                return (
+                                    <ChapterInfoComponent
+                                        key={i}
+                                        volume={i}
+                                        chapters={chapterList.map((chapter: any) => {
+                                            if (chapter.volume === i) {
+                                                return chapter
+                                            }
+                                        })}
                                         activeVolume={activeVolume}
                                         setActiveVolume={setActiveVolume}
                                     />
@@ -124,64 +172,18 @@ const Manga = ({ manga }: Props) => {
 
 type Props = {
     manga: (Manga & {
-        chapters: Chapter[];
-        origin: Origin | null;
-        scan: Scan | null;
-        status: string;
         genres: (GenresOnMangas & {
             genre: {
                 slug: string;
                 name: string;
             };
-        })[]
-
-    })
+        })[];
+        chapters: (Chapter & {
+            scan: Scan | null;
+        })[];
+        origin: Origin | null;
+    });
 }
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//     let { slug } = ctx.query;
-//     let raw = await prisma.manga.update({
-//         where: {
-//             slug: slug as string
-//         },
-//         data: {
-//             views: { increment: 1 }
-//         },
-//         include: {
-//             chapters: true,
-//             genres: {
-//                 include: {
-//                     genre: {
-//                         select: {
-//                             name: true,
-//                             slug: true
-//                         }
-//                     }
-//                 }
-//             },
-//             origin: true,
-//             scan: true
-//         }
-//     })
-//     let manga = JSON.parse(JSON.stringify(raw))
-//     manga.chapters.sort((a: Chapter, b: Chapter) => {
-//         if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
-//             return -1
-//         } else {
-//             return 1
-//         }
-
-//     })
-
-//     manga.status = 'ongoing'
-//     return {
-//         props: {
-//             manga
-//         }
-//     }
-// }
-
-
 
 export const getStaticPaths: GetStaticPaths = async () => {
     let slugs = await prisma.manga.findMany({ select: { slug: true } });
@@ -201,7 +203,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
             slug: slug as string
         },
         include: {
-            chapters: true,
+            chapters: {
+                include: {
+                    scan: true
+                }
+            },
             genres: {
                 include: {
                     genre: {
@@ -222,7 +228,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         } else {
             return 1
         }
-
     })
 
     manga.status = 'ongoing'

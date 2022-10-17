@@ -19,7 +19,7 @@ const Home = ({ mangas }: Props) => {
     return (
         <div className={styles.homePage} style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }} >
             <Head>
-                <title>Mango Mangna</title>
+                <title>Tenki Mangas</title>
                 <meta name="title" content="MangoMangna" />
                 <meta name="description" content="Um site mangas e novels, ainda em desenvolvimento." />
 

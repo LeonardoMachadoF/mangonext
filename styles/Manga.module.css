@@ -50,6 +50,9 @@
 
 .chapters {
     margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .backNav {
@@ -78,6 +81,7 @@
     border-radius: 7px;
     padding: 2px 8px !important;
     width: fit-content;
+    color: #fff;
 }
 
 .sinopse {
@@ -100,6 +104,17 @@
     filter: blur(5px);
     opacity: .7;
     width: 246px;
+}
+
+.filters {
+    background-color: #FF800C;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-weight: 500;
+    font-size: 17px;
+    border: none;
+    color: #fff;
 }
 
 @media(max-width: 1170px) {

@@ -48,7 +48,7 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
                     className={styles.logoTitle}
                     style={{ display: searchOpen ? 'none' : 'block' }}
                 >
-                    Logo
+                    Tenki Mangas
                 </Link>
             </nav>
             <div className={styles.searchArea}>

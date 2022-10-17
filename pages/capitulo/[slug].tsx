@@ -7,23 +7,25 @@ import { Header } from '../../src/components/Header';
 import prisma from '../../src/libs/prisma'
 import axios from 'axios';
 import Head from 'next/head';
+import { useThemeContext } from '../../src/contexts/colorContext/hook';
 
 
 
 const Manga = ({ chapter }: Props) => {
+    const { theme } = useThemeContext();
     useEffect(() => {
         const addView = async () => {
             let formData = new FormData();
             formData.append('views', 'true');
             formData.append('chapter_id', chapter.id)
-            let res = await axios.put(`/api/chapter`, formData)
+            await axios.put(`/api/chapter`, formData)
         }
 
         addView()
     }, [])
     const [menuOpen, setMenuOpen] = useState(false);
     return (
-        <div>
+        <div style={{ backgroundColor: theme.primaryColor, color: theme.fontColor }}>
             <Head>
                 <title>{`Capítulo ${chapter.chapter} - ${chapter.manga?.title}`}</title>
             </Head>
