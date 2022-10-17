@@ -13,7 +13,8 @@ const handler = nc();
 handler.use(upload.array('imgs', 150))
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    let { manga, volume, chapter, manga_id, title, error } = await requestValidator(req.body);
+    let { volume, chapter, manga, title, error, manga_slug, scan_slug } = await requestValidator(req.body);
+
     if (error) {
         if (req.files) {
             req.files.forEach((file) => {
@@ -25,17 +26,23 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
 
     let credentials: Credentials = await storageApi.getCredentials();
 
-    let path = `${manga.toLowerCase()}/volume-${volume}/chapter-${chapter}`
+    let path = `${manga_slug}/volume-${volume}/chapter-${chapter}`
     let { aditionalPagesInfo, urls } = await storageApi.uploadChapterPages(credentials, req.files, path)
 
+
+    let scan = await prisma.scan.findFirst({ where: { slug: scan_slug as string } });
+    if (!scan) {
+        scan = await prisma.scan.create({ data: { name: scan_slug.split('-').map((i: string) => i[0].toUpperCase() + i.substring(1)).join(' '), slug: scan_slug } })
+    }
     let newChapter = await prisma.chapter.create({
         data: {
             title: title as string,
             slug: path.split('/').join('-').split(' ').join('-') as string,
             volume: parseInt(volume),
             chapter: parseInt(chapter),
-            manga_id: manga_id.id as string,
+            manga_id: manga.id as string,
             views: 0,
+            scan_id: scan.id
         }
     })
     await Promise.all(urls.map(async (url: string, index: number) => {

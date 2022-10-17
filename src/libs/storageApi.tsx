@@ -85,7 +85,7 @@ export const storageApi = {
                 {
                     headers: {
                         Authorization: uploadAuthorizationToken,
-                        "X-Bz-File-Name": `${path.split(' ').join('-')}/${page.filename.split(' ').join('-')}`,
+                        "X-Bz-File-Name": `${path}/${page.filename.split(' ').join('-')}`,
                         "Content-Type": "b2/x-auto",
                         "Content-Length": page.size,
                         "X-Bz-Content-Sha1": crypto.createHash('sha1').update(source).digest("hex"),
