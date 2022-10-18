@@ -3,6 +3,7 @@ import axios from "axios";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { CloudArrowDown, Divide, PencilSimple, SquaresFour } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Aside } from "../../src/components/Aside";
@@ -25,8 +26,7 @@ const Manga = ({ manga }: Props) => {
             volumes.push(chapter.volume)
     });
     const [activeVolume, setActiveVolume] = useState(volumes[0]);
-    const [loading, setLoading] = useState(false);
-    const [chapterList, setChapterList] = useState(manga.chapters);
+    const [chapterList, setChapterList] = useState<(Chapter & { scan: Scan | null; })[]>([]);
     const [sorted, setSorted] = useState(false);
 
 
@@ -42,8 +42,7 @@ const Manga = ({ manga }: Props) => {
 
     const handleClick = () => {
         let copy = [...manga.chapters];
-        if (!sorted) {
-            console.log(volumes);
+        if (!sorted && chapterList.length === 0) {
             copy.sort((a: Chapter, b: Chapter) => {
                 if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
                     return 1
@@ -51,17 +50,10 @@ const Manga = ({ manga }: Props) => {
                     return -1
                 }
             })
-        } else {
-            copy.sort((a: Chapter, b: Chapter) => {
-                if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
-                    return -1
-                } else {
-                    return 1
-                }
-            })
+
+            setChapterList(copy);
         }
 
-        setChapterList(copy);
         setActiveVolume(volumes[volumes.length - 1]);
         setSorted(!sorted);
     }
@@ -99,8 +91,8 @@ const Manga = ({ manga }: Props) => {
                             <main className={styles.contentMain}>
                                 <section className={styles.upperArea}>
                                     <div className={styles.contentImg}>
-                                        <img src={getCloudflareUrl(manga.image_url)} alt="" onLoad={() => setLoading(true)} loading='lazy' />
-                                        <div className={styles.ghost} style={{ opacity: loading ? '0' : '1' }}> </div>
+                                        <img src={getCloudflareUrl(manga.image_url)} alt="" />
+                                        <div className={styles.ghost}></div>
                                     </div>
                                     <article className={styles.mangaInfo}>
                                         <MangaStatus title='status' mangaStatus={manga.status === 'ongoing' ? 'Em lançamento' : 'Completo'} icon='status' />
@@ -109,9 +101,9 @@ const Manga = ({ manga }: Props) => {
                                         <div className={styles.genres}>
                                             {manga.genres.map(genre => {
                                                 return (
-                                                    <div key={genre.id} className={styles.genre}>
-                                                        {genre.genre.name}
-                                                    </div>
+                                                    <Link href={`/mangas/${genre.genre.slug}`} key={genre.id} >
+                                                        <a className={styles.genre}>{genre.genre.name}</a>
+                                                    </Link>
                                                 )
                                             })}
                                         </div>

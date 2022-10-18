@@ -35,7 +35,7 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
     }
     return (
         <header className={styles.header} style={{ backgroundColor: theme.secondaryColor, position: absolute ? 'absolute' : 'fixed' }}>
-            <nav className={styles.logo} style={{ width: searchOpen ? '50px' : '' }}>
+            <nav className={styles.logo} style={{ display: searchOpen ? 'none' : 'flex' }}>
 
                 <List
                     size={24}
