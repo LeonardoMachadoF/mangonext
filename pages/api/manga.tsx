@@ -9,6 +9,7 @@ export const config = { api: { bodyParser: false, }, }
 const handler = nc();
 handler.use(upload.array('img', 1))
 
+
 // handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
 //     let { title, genres, sinopse, author, artist } = req.body;
 //     let slug = title.split(' ').join('-').toLowerCase().split('?').join('');
