@@ -234,9 +234,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     manga.status = 'ongoing'
     return {
         props: {
-            manga,
-            revalidate: 60 * 60 * 2
-        }
+            manga
+        },
+        revalidate: 60 * 60 * 2
     }
 }
 
