@@ -13,7 +13,7 @@ type Props = {
     href: string;
     lastChapter: (Chapter & {
         scan: Scan | null;
-    });
+    }) | null;
 }
 
 export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props) => {
@@ -43,7 +43,7 @@ export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props)
                                 </a>
                             </Link>
                         }
-                        <small style={{ marginLeft: '10px' }}>{lastChapter.scan ? lastChapter.scan.name : 'Random Scans'}</small>
+                        <small style={{ marginLeft: '10px' }}>{lastChapter?.scan ? lastChapter.scan.name : 'Random Scans'}</small>
                     </div>
                     <small>{lastChapterDate}</small>
                 </div>
