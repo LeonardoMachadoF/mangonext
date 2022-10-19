@@ -13,7 +13,7 @@ type Props = {
     href: string;
     lastChapter: (Chapter & {
         scan: Scan | null;
-    }) | null;
+    }) | null
 }
 
 export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props) => {

@@ -51,7 +51,7 @@ const Home = ({ mangas }: Props) => {
                             </div>
                             <div className={styles.followingItems}>
                                 {mangas.map((manga) => {
-                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/titulo/${manga.slug}`} lastChapter={manga.chapters[0]} />
+                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/titulo/${manga.slug}`} lastChapter={manga.chapters[0] ? manga.chapters[0] : null} />
                                 })}
                             </div>
                         </div>
