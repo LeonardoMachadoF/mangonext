@@ -1,4 +1,4 @@
-import prisma from '../../src/libs/prisma'
+import prisma from './prisma'
 
 export const requestValidator = async (body: any) => {
     if (!body.manga_slug || !body.volume || !body.chapter || !body.title) {

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { Credentials } from '../types/Credentials';
-import { FileInfo } from '../types/FileInfo';
 import crypto from 'node:crypto';
 import fs from 'fs';
-import { UploadedFile } from '../types/UploadedFile';
 import { unlinkSync } from 'node:fs';
-import { deleteFileCredentials } from '../types/deleteFileCredentials';
+import { Credentials } from '../../types/BackTypes/Credentials';
+import { FileInfo } from '../../types/BackTypes/FileInfo';
+import { UploadedFile } from '../../types/BackTypes/UploadedFile';
+import { deleteFileCredentials } from '../../types/BackTypes/deleteFileCredentials';
 
 export const storageApi = {
     getCredentials: async () => {
