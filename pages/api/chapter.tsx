@@ -1,12 +1,12 @@
 import nc from 'next-connect';
 import { NextApiRequest, NextApiResponse } from "next";
-import { storageApi } from "../../src/libs/storageApi";
-import { Credentials } from "../../src/types/Credentials";
-import { upload } from "../../src/libs/multerConfig";
-import { NextApiRequestWithFiles } from '../../src/types/ExtendedRequestWithFiles';
+import { storageApi } from "../../src/libs/backServices/storageApi";
+import { Credentials } from "../../src/types/BackTypes/Credentials";
+import { upload } from "../../src/libs/backServices/multerConfig";
+import { NextApiRequestWithFiles } from '../../src/types/BackTypes/ExtendedRequestWithFiles';
 import { unlinkSync } from 'fs';
-import prisma from '../../src/libs/prisma'
-import { requestValidator } from '../../src/libs/requestValidator';
+import prisma from '../../src/libs/backServices/prisma'
+import { requestValidator } from '../../src/libs/backServices/requestValidator';
 export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();

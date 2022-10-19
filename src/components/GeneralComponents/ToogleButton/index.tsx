@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useThemeContext } from '../../contexts/colorContext/hook';
-import { ThemeType } from '../../contexts/colorContext/types';
+import { useThemeContext } from '../../../contexts/colorContext/hook';
+import { ThemeType } from '../../../contexts/colorContext/types';
 import styles from './styles.module.css';
 
 export const ToogleButton = () => {

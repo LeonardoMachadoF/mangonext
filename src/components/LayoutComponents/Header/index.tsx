@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Bell, DownloadSimple, List, MagnifyingGlass, X } from 'phosphor-react'
-import { ChangeEvent, Dispatch, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
-import { useThemeContext } from '../../contexts/colorContext/hook';
-import { ToogleButton } from '../ToogleButton';
+import { List, MagnifyingGlass, X } from 'phosphor-react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useThemeContext } from '../../../contexts/colorContext/hook';
+import { ToogleButton } from '../../GeneralComponents/ToogleButton';
 import styles from './styles.module.css'
 
 type Props = {
@@ -54,7 +54,7 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
             <div className={styles.searchArea}>
 
                 <div className={styles.searchBar} style={{ width: searchOpen ? '100%' : (mobile ? 'fit-content' : '100%') }}>
-                    <input ref={inputRef} type="text" placeholder='Pesquise um manga' style={{ display: searchOpen ? (mobile ? 'block' : 'none') : '' }} />
+                    <input ref={inputRef} type="text" placeholder='Pesquise um manga' style={{ display: searchOpen ? (mobile ? 'block' : 'none') : 'none' }} />
                     {searchOpen && mobile &&
                         <X size={24} color="#fff" style={{ marginRight: '4px' }} onClick={handleCloseIconClick} />
                     }

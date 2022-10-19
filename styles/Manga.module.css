@@ -90,7 +90,6 @@
     margin-top: -150px;
     width: 60%;
     margin-left: 260px;
-
 }
 
 .upperArea {
@@ -115,6 +114,7 @@
     font-size: 17px;
     border: none;
     color: #fff;
+    cursor: pointer;
 }
 
 @media(max-width: 1170px) {
@@ -160,5 +160,4 @@
         height: 160px;
     }
 
-    .ghost {}
 }

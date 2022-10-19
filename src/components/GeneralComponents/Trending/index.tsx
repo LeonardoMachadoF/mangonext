@@ -1,31 +1,18 @@
-import { GenresOnMangas, Origin } from '@prisma/client';
-import { CaretLeft, CaretRight, TrendUp } from 'phosphor-react'
+import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useState } from 'react';
 import { TrendingItem } from '../TrendingItem'
 import styles from './styles.module.css'
-import { getTimePast } from '../../libs/timeUtils'
+import { getTimePast } from '../../../libs/frontServices/timeUtils'
+import { MangaIncludingChaptersScanGenresAndOrigin } from '../../../types/FrontTypes/MangaAndChapters/MangaIncludingChaptersScanGenresAndOrigin';
+
 
 type Props = {
     title: string,
     icon: React.ReactNode,
-    mangas: {
-        created_at: any;
-        chapters: any[];
-        id: string;
-        title: string;
-        slug: string;
-        sinopse: string;
-        origin_id: string | null;
-        views: number;
-        image_url: string;
-        is_manga: boolean | null;
-        genres: GenresOnMangas[];
-        origin: Origin | null;
-    }[]
+    mangas: MangaIncludingChaptersScanGenresAndOrigin[]
 }
 
 export const Trending = ({ mangas, title, icon }: Props) => {
-
     const [marginLeft, setMarginLeft] = useState(0);
     const handleRightClick = () => {
         setMarginLeft(marginLeft - 150)
@@ -42,7 +29,7 @@ export const Trending = ({ mangas, title, icon }: Props) => {
             </div>
             <div className={styles.trendingRow}>
                 <div className={styles.carrousel} style={{ marginLeft: `${marginLeft}px` }}>
-                    {mangas.map(manga => {
+                    {mangas.map((manga) => {
                         return (
                             <TrendingItem
                                 key={manga.id}

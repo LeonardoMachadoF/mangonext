@@ -1,34 +1,32 @@
-import { Chapter, GenresOnMangas, Manga, Origin, Scan } from "@prisma/client";
 import axios from "axios";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
-import { CloudArrowDown, Divide, PencilSimple, SquaresFour } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { Aside } from "../../src/components/Aside";
-import { ChapterInfoComponent } from "../../src/components/ChapterInfoComponent";
-import { Footer } from "../../src/components/Footer";
-import { Header } from "../../src/components/Header";
-import { MangaStatus } from "../../src/components/MangaStatus";
+import { Aside } from "../../src/components/LayoutComponents/Aside";
+import { ChapterInfoComponent } from "../../src/components/GeneralComponents/ChapterInfoComponent";
+import { Footer } from "../../src/components/LayoutComponents/Footer";
+import { Header } from "../../src/components/LayoutComponents/Header";
+import { MangaStatus } from "../../src/components/GeneralComponents/MangaStatus";
 import { useThemeContext } from "../../src/contexts/colorContext/hook";
-import { getCloudflareUrl } from "../../src/libs/getCloudflareUrl";
-import prisma from '../../src/libs/prisma'
-import { getTimePast } from "../../src/libs/timeUtils";
+import { getCloudflareUrl } from "../../src/libs/frontServices/getCloudflareUrl";
+import prisma from '../../src/libs/backServices/prisma'
 import styles from '../../styles/Manga.module.css'
+import { getTimePast } from "../../src/libs/frontServices/timeUtils";
+import { MangaIncludingChaptersScanGenresAndGenreAndOrigin } from "../../src/types/FrontTypes/MangaAndChapters/MangaIncludingChaptersScanGenresAndGenreAndOrigin";
+import { ChapterWithScan } from "../../src/types/FrontTypes/MangaAndChapters/ChapterWithScan";
 
 const Manga = ({ manga }: Props) => {
     const { theme } = useThemeContext();
     const [menuOpen, setMenuOpen] = useState(false);
     const volumes: number[] = [];
-    manga.chapters.map((chapter: Chapter) => {
+    manga.chapters.map((chapter) => {
         if (volumes.indexOf(chapter.volume) === -1)
             volumes.push(chapter.volume)
     });
     const [activeVolume, setActiveVolume] = useState(volumes[0]);
-    const [chapterList, setChapterList] = useState<(Chapter & { scan: Scan | null; })[]>([]);
+    const [chapterList, setChapterList] = useState<ChapterWithScan[]>([]);
     const [sorted, setSorted] = useState(false);
-
 
     useEffect(() => {
         const addView = async () => {
@@ -43,7 +41,7 @@ const Manga = ({ manga }: Props) => {
     const handleClick = () => {
         let copy = [...manga.chapters];
         if (!sorted && chapterList.length === 0) {
-            copy.sort((a: Chapter, b: Chapter) => {
+            copy.sort((a, b) => {
                 if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
                     return 1
                 } else {
@@ -126,9 +124,7 @@ const Manga = ({ manga }: Props) => {
                                     <ChapterInfoComponent
                                         key={i}
                                         volume={i}
-                                        chapters={manga.chapters.map((chapter: (Chapter & {
-                                            scan: Scan | null;
-                                        }) | any) => {
+                                        chapters={manga.chapters.map((chapter) => {
                                             if (chapter.volume === i) {
                                                 return chapter
                                             }
@@ -164,18 +160,7 @@ const Manga = ({ manga }: Props) => {
 }
 
 type Props = {
-    manga: (Manga & {
-        genres: (GenresOnMangas & {
-            genre: {
-                slug: string;
-                name: string;
-            };
-        })[];
-        chapters: (Chapter & {
-            scan: Scan | null;
-        })[];
-        origin: Origin | null;
-    });
+    manga: MangaIncludingChaptersScanGenresAndGenreAndOrigin
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -214,8 +199,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
             origin: true
         }
     })
-    let manga = JSON.parse(JSON.stringify(raw))
-    manga.chapters.sort((a: Chapter, b: Chapter) => {
+    let manga: MangaIncludingChaptersScanGenresAndGenreAndOrigin = JSON.parse(JSON.stringify(raw))
+    manga.chapters.sort((a, b) => {
         if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
             return -1
         } else {

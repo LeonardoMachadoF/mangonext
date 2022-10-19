@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getCloudflareUrl } from '../../libs/getCloudflareUrl';
+import { getCloudflareUrl } from '../../../libs/frontServices/getCloudflareUrl';
 import styles from './styles.module.css'
 
 type Props = {
@@ -17,7 +17,7 @@ export const TrendingItem = ({ title, timePast, img, mangaSlug }: Props) => {
             </div>
 
             <div className={styles.trendingInfo}>
-                <Link href={`/manga/${mangaSlug}`} className={styles.trendingTitle}>{title}</Link>
+                <Link href={`/titulo/${mangaSlug}`} className={styles.trendingTitle}>{title}</Link>
                 <div className={styles.trendingSmall}>
                     <small>{timePast}</small>
                     <small>Línguas 🇰🇷</small>

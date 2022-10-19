@@ -2,15 +2,15 @@ import type { GetStaticProps } from 'next'
 import Head from 'next/head'
 import { FileArrowUp, TrendUp } from 'phosphor-react'
 import { useState } from 'react'
-import { Aside } from '../src/components/Aside'
-import { FollowingItem } from '../src/components/FollowingItem'
-import { Footer } from '../src/components/Footer'
-import { Header } from '../src/components/Header'
-import { Trending } from '../src/components/Trending'
+import { Aside } from '../src/components/LayoutComponents/Aside'
+import { FollowingItem } from '../src/components/GeneralComponents/FollowingItem'
+import { Footer } from '../src/components/LayoutComponents/Footer'
+import { Header } from '../src/components/LayoutComponents/Header'
+import { Trending } from '../src/components/GeneralComponents/Trending'
 import styles from '../styles/Home.module.css'
-import prisma from '../src/libs/prisma';
-import { Chapter, GenresOnMangas, Manga, Origin, Scan } from '@prisma/client'
+import prisma from '../src/libs/backServices/prisma';
 import { useThemeContext } from '../src/contexts/colorContext/hook'
+import { MangaIncludingChaptersScanGenresAndOrigin } from '../src/types/FrontTypes/MangaAndChapters/MangaIncludingChaptersScanGenresAndOrigin'
 
 const Home = ({ mangas }: Props) => {
     const { theme } = useThemeContext();
@@ -51,7 +51,7 @@ const Home = ({ mangas }: Props) => {
                             </div>
                             <div className={styles.followingItems}>
                                 {mangas.map((manga) => {
-                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/manga/${manga.slug}`} lastChapter={manga.chapters[0]} />
+                                    return <FollowingItem key={manga.id} title={manga.title} imgUrl={manga.image_url} desc={manga.sinopse} href={`/titulo/${manga.slug}`} lastChapter={manga.chapters[0]} />
                                 })}
                             </div>
                         </div>
@@ -66,19 +66,13 @@ const Home = ({ mangas }: Props) => {
 }
 
 type Props = {
-    mangas: (Manga & {
-        chapters: (Chapter & {
-            scan: Scan | null;
-        })[];
-        genres: GenresOnMangas[];
-        origin: Origin | null;
-    })[]
+    mangas: MangaIncludingChaptersScanGenresAndOrigin[]
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-    let raw = await prisma.manga.findMany({ include: { chapters: { include: { scan: true } }, genres: true, origin: true } });
+    let raw = await prisma.manga.findMany({ include: { chapters: { include: { scan: true }, take: 1, orderBy: { created_at: 'desc' } }, genres: true, origin: true } });
     let mangas = JSON.parse(JSON.stringify(raw))
-    mangas.map((manga: any) => manga.chapters.sort((a: Chapter, b: Chapter) => {
+    mangas.map((manga: MangaIncludingChaptersScanGenresAndOrigin) => manga.chapters.sort((a, b) => {
         if (parseInt(a.slug.split('-')[a.slug.split('-').length - 1]) - parseInt(b.slug.split('-')[b.slug.split('-').length - 1]) > 0) {
             return -1
         } else {

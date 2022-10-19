@@ -1,9 +1,9 @@
 import { Chapter, Scan } from '@prisma/client'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { useThemeContext } from '../../contexts/colorContext/hook'
-import { getCloudflareUrl } from '../../libs/getCloudflareUrl'
-import { getTimePast } from '../../libs/timeUtils'
+import { useThemeContext } from '../../../contexts/colorContext/hook'
+import { getCloudflareUrl } from '../../../libs/frontServices/getCloudflareUrl'
+import { getTimePast } from '../../../libs/frontServices/timeUtils'
 import styles from './styles.module.css'
 
 type Props = {

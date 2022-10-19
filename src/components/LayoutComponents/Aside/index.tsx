@@ -1,7 +1,7 @@
 import { Bookmarks, Cards, CaretDown, ChatText, ClockCounterClockwise, Fire, Funnel, Gear, Heart, House, List, Question } from 'phosphor-react'
-import { useThemeContext } from '../../contexts/colorContext/hook';
-import { AsideNavItems } from '../AsideNavItems'
-import { ToogleButton } from '../ToogleButton';
+import { useThemeContext } from '../../../contexts/colorContext/hook';
+import { AsideNavItems } from '../../GeneralComponents/AsideNavItems'
+import { ToogleButton } from '../../GeneralComponents/ToogleButton';
 import styles from './styles.module.css'
 
 type Props = {

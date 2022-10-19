@@ -1,14 +1,14 @@
-import { Chapter, Page } from '@prisma/client';
 import styles from '../../styles/Chapter.module.css'
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
-import { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useEffect, useRef, useState } from 'react';
-import { Aside } from '../../src/components/Aside';
-import { Header } from '../../src/components/Header';
-import prisma from '../../src/libs/prisma'
+import prisma from '../../src/libs/backServices/prisma'
 import axios from 'axios';
 import Head from 'next/head';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { useEffect, useState } from 'react';
+import { Aside } from '../../src/components/LayoutComponents/Aside';
+import { Header } from '../../src/components/LayoutComponents/Header';
 import { useThemeContext } from '../../src/contexts/colorContext/hook';
-import { getCloudflareUrl } from '../../src/libs/getCloudflareUrl';
+import { getCloudflareUrl } from '../../src/libs/frontServices/getCloudflareUrl';
+import { ChapterWithPagesAndMangaTitle } from '../../src/types/FrontTypes/MangaAndChapters/ChapterWithPagesAndMangaTitle';
 
 
 
@@ -53,13 +53,9 @@ const Manga = ({ chapter }: Props) => {
 }
 
 type Props = {
-    chapter: (Chapter & {
-        pages: Page[];
-        manga: {
-            title: string;
-        } | null;
-    })
+    chapter: ChapterWithPagesAndMangaTitle
 }
+
 
 export const getStaticPaths: GetStaticPaths = async () => {
     return {
@@ -70,8 +66,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
     let raw = await prisma.chapter.findFirst({ where: { slug: ctx.params!.slug as string }, include: { pages: true, manga: { select: { title: true, } } } })
-    let chapter = JSON.parse(JSON.stringify(raw))
-    chapter.pages.sort((a: Page, b: Page) => {
+    let chapter: ChapterWithPagesAndMangaTitle = JSON.parse(JSON.stringify(raw))
+    chapter.pages.sort((a, b) => {
         if (a.file_name.split('chapter-')[1].split('/')[1].split('.') > b.file_name.split('chapter-')[1].split('/')[1].split('.')) {
             return 1
         } else {

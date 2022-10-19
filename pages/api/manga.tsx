@@ -1,9 +1,9 @@
 import nc from 'next-connect';
 import { NextApiRequest, NextApiResponse } from "next";
-import { upload } from "../../src/libs/multerConfig";
-import { NextApiRequestWithFiles } from '../../src/types/ExtendedRequestWithFiles';
-import prisma from '../../src/libs/prisma'
-import { storageApi } from "../../src/libs/storageApi";
+import { upload } from "../../src/libs/backServices/multerConfig";
+import { NextApiRequestWithFiles } from '../../src/types/BackTypes/ExtendedRequestWithFiles';
+import prisma from '../../src/libs/backServices/prisma'
+import { storageApi } from "../../src/libs/backServices/storageApi";
 export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();

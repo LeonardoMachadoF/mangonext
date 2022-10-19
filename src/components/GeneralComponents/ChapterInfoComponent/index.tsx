@@ -1,12 +1,11 @@
 import { Chapter, Scan } from "@prisma/client"
 import Link from "next/link";
 import { ArrowDown } from "phosphor-react";
-import { getTimePast } from "../../libs/timeUtils"
-import styles from './styles.module.css'
+import { getTimePast } from "../../../libs/frontServices/timeUtils";
+import { ChapterWithScan } from "../../../types/FrontTypes/MangaAndChapters/ChapterWithScan";
+import styles from './styles.module.css';
 type Props = {
-    chapters: (Chapter & {
-        scan: Scan | null;
-    })[];
+    chapters: ChapterWithScan[];
     volume: number;
     activeVolume: number;
     setActiveVolume: (volume: number) => void;
@@ -24,9 +23,7 @@ export const ChapterInfoComponent = ({ volume, chapters, activeVolume, setActive
                 <p onClick={handleVolumeChange} className={styles.volume}>Volume {volume} <ArrowDown size={14} weight='bold' /></p>
                 {volume === activeVolume &&
                     <>
-                        {chapters.map((chapter: (Chapter & {
-                            scan: Scan | null;
-                        })) => {
+                        {chapters.map((chapter) => {
                             if (chapter) {
                                 return (
                                     <article key={chapter.id} className={styles.chapter}>
