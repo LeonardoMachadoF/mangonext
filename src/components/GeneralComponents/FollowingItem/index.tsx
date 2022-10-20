@@ -11,7 +11,7 @@ type Props = {
     desc: string;
     imgUrl: string;
     href: string;
-    lastChapter: (Chapter & {
+    lastChapter?: (Chapter & {
         scan: Scan | null;
     }) | null
 }

@@ -7,6 +7,15 @@ export const config = { api: { bodyParser: false, }, }
 const handler = nc();
 handler.use(upload.array('img', 1))
 
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+    let { title: titleInput } = req.query
+    if (!titleInput) {
+        return res.json({})
+    }
+
+    let mangas = await prisma.manga.findMany({ where: { title: { contains: titleInput as string } }, take: 10 })
+    res.json({ mangas })
+})
 
 // handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
 //     let { title, genres, sinopse, author, artist } = req.body;

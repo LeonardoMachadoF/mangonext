@@ -21,6 +21,7 @@
 
 .searchBar {
     display: flex;
+    position: relative;
     height: 44px;
     max-width: 400px;
     width: 50%;
@@ -44,6 +45,16 @@
 
 .searchBar input::placeholder {
     color: #fff;
+}
+
+.followingItems {
+    position: absolute;
+    top: 64px;
+}
+
+.searchInputMangas {
+    padding: 12px 8px;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .logo {
@@ -86,5 +97,9 @@
         justify-content: center;
         margin: 0;
         padding: 0 12px;
+    }
+
+    .searchInputMangas {
+        min-width: 300px;
     }
 }
