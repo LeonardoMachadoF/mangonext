@@ -89,6 +89,60 @@ handler.use(upload.array('imgs', 150))
 //     return res.json({ status: 'success' })
 // })
 
+handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
+    if (req.headers.cookie?.split('cookie=')[1] !== process.env.COOKIE as string) {
+        return res.json({ error: 'Unauthorized!' })
+    }
+    let { volume, chapter, manga, title, error, manga_slug, scan } = await requestValidator(req.body);
+
+    if (error) {
+        if (req.files) {
+            req.files.forEach((file) => {
+                unlinkSync(file.path)
+            })
+        }
+        return res.json({ error })
+    }
+
+    let credentials: Credentials = await storageApi.getCredentials();
+
+    let path = `${manga_slug}/volume-${volume}/chapter-${chapter}`
+    let { aditionalPagesInfo, urls } = await storageApi.uploadChapterPages(credentials, req.files, path)
+    let slug = path.split('/').join('-').split(' ').join('-');
+
+    let newChapter = await prisma.chapter.findFirst({ where: { slug: slug } });
+
+    if (!newChapter) {
+        newChapter = await prisma.chapter.create({
+            data: {
+                title: title ? title : '',
+                slug: slug,
+                volume: parseInt(volume),
+                chapter: parseInt(chapter),
+                manga_id: manga.id as string,
+                views: 0,
+                scan_id: scan.id
+            },
+            include: {
+                scan: true
+            }
+        })
+    }
+
+    await Promise.all(urls.map(async (url: string, index: number) => {
+        await prisma.page.create({
+            data: {
+                url: url,
+                chapter_id: newChapter!.id,
+                file_id: aditionalPagesInfo[index].fileId,
+                file_name: aditionalPagesInfo[index].fileName
+            }
+        })
+    }))
+
+    res.json({ newChapter, urls });
+    return
+})
 
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {

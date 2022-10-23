@@ -1,6 +1,5 @@
 import { Chapter, Scan } from '@prisma/client'
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { useThemeContext } from '../../../contexts/colorContext/hook'
 import { getCloudflareUrl } from '../../../libs/frontServices/getCloudflareUrl'
 import { getTimePast } from '../../../libs/frontServices/timeUtils'
@@ -39,7 +38,7 @@ export const FollowingItem = ({ title, desc, imgUrl, href, lastChapter }: Props)
                         {lastChapter &&
                             <Link href={`/capitulo/${lastChapter.slug}`}>
                                 <a style={{ fontSize: '14px' }}>
-                                    Vol.{lastChapter.volume > 9 ? lastChapter.volume : `0${lastChapter.volume}`}, Capítulo {lastChapter.chapter > 9 ? lastChapter.chapter : ` 0${lastChapter.chapter}`}
+                                    Vol.{lastChapter.volume > 9 ? lastChapter.volume : `0${lastChapter.volume}`} - Capítulo {lastChapter.chapter > 9 ? lastChapter.chapter : ` 0${lastChapter.chapter}`}
                                 </a>
                             </Link>
                         }
