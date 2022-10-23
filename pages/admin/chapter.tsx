@@ -5,6 +5,7 @@ import { Genre, Manga, Scan } from '@prisma/client';
 import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { Input } from '../../src/components/GeneralComponents/Input';
+import { redirect } from 'next/dist/server/api-utils';
 
 const Chapter = ({ mangas, scans }: Props) => {
     const [chapterTitle, setChapterTitle] = useState('');
@@ -175,10 +176,19 @@ type Props = {
     scans: Scan[]
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    if (ctx.req.headers.cookie?.split('cookie=')[1] !== process.env.COOKIE as string) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: true
+            }
+        }
+    }
     let raw = await prisma.manga.findMany({ orderBy: { title: 'asc' } });
     let mangas = JSON.parse(JSON.stringify(raw))
     let scans = await prisma.scan.findMany({ orderBy: { name: 'asc' } })
+
 
     return {
         props: { mangas, scans }
