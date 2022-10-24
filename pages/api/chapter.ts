@@ -7,6 +7,7 @@ import { NextApiRequestWithFiles } from '../../src/types/BackTypes/ExtendedReque
 import { unlinkSync } from 'fs';
 import prisma from '../../src/libs/backServices/prisma'
 import { requestValidator } from '../../src/libs/backServices/requestValidator';
+import nookies from 'nookies';
 export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();
@@ -90,9 +91,16 @@ handler.use(upload.array('imgs', 150))
 // })
 
 handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
-    if (req.headers.cookie?.split('cookie=')[1] !== process.env.COOKIE as string) {
-        return res.json({ error: 'Unauthorized!' })
+    let cookie = req.body.cookie;
+    if (cookie !== process.env.COOKIE) {
+        if (req.files) {
+            req.files.forEach((file) => {
+                unlinkSync(file.path)
+            })
+        }
+        return res.json({ error: 'Unauthorized' })
     }
+
     let { volume, chapter, manga, title, error, manga_slug, scan } = await requestValidator(req.body);
 
     if (error) {

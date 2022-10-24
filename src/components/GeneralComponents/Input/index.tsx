@@ -8,7 +8,7 @@ interface Props {
 
 export const Input = ({ type, title, value, onChange, placeholder }: Props) => {
     return (
-        <div>
+        <div >
             <label htmlFor={title} style={{ width: '130px' }}>
                 {title}
             </label>
