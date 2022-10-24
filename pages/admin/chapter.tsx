@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next"
-import React, { FormEvent, useRef, useState } from "react"
+import { FormEvent, useRef, useState } from "react"
 import nookies from 'nookies';
 import axios from "axios";
 import { Input } from "../../src/components/GeneralComponents/Input";
@@ -14,40 +14,97 @@ const Chapter = ({ mangas, scans }: Props) => {
     const [mangaSlug, setMangaSlug] = useState('')
     const [scan, setScan] = useState('');
     const inputRef = useRef<any>(null);
-    const [loading, setLoading] = useState(false);
+    const [promises, setPromises] = useState<{ url: string, data: FormData }[]>([]);
 
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true);
-        let data = new FormData();
         let arrayOfFiles: any = [...inputRef.current.files]
-        for (let i in inputRef.current.files) {
-            data.append('imgs', arrayOfFiles[i]);
+
+        let size = arrayOfFiles.reduce((acc: number, at: any) => acc + parseInt(at.size), 0) / 1000000;
+        const half = Math.ceil(arrayOfFiles.length / 2);
+        if (size > 4) {
+            handleUpload((arrayOfFiles.slice(0, half)))
+            handleUpload((arrayOfFiles.slice(half)))
+        } else {
+            handleUpload(arrayOfFiles)
         }
 
-        data.append('volume', chapterVolume.toString())
-        data.append('chapter', chapterChapter.toString())
-        data.append('manga_slug', mangaSlug)
-        data.append('scan', scan)
-        data.append('title', chapterTitle)
-        let { authorization } = nookies.get(null);
-        data.append('cookie', authorization)
-        console.log(authorization)
-        let res = await axios.post("/api/chapter", data).catch(e => { console.log(e); setLoading(false); });
 
-        if (res && res.data) {
-            setLoading(false);
+
+        // for (let i in inputRef.current.files) {
+        //     data.append('imgs', arrayOfFiles[i]);
+        // }
+
+        // let data = new FormData();
+        // data.append('volume', chapterVolume.toString())
+        // data.append('chapter', chapterChapter.toString())
+        // data.append('manga_slug', mangaSlug)
+        // data.append('scan', scan)
+        // data.append('title', chapterTitle)
+        // let { authorization } = nookies.get(null);
+        // data.append('cookie', authorization)
+        // let res = await axios.post("/api/chapter", data).catch(e => { console.log(e); setLoading(false); });
+        // setPromises((state) => [...state, { url: "/api/chapter", data }])
+
+        // if (res && res.data) {
+        // setLoading(false);
+        //     setChapterTitle('');
+        //     setChapterChapter(parseInt(`${chapterChapter}`) + parseInt('1'));
+        //     alert("success!" + res.data.newChapter.slug)
+        // }
+    }
+
+    const handleUpload = async (arrayOfFiles: any) => {
+        let size = arrayOfFiles.reduce((acc: number, at: any) => acc + parseInt(at.size), 0) / 1000000;
+        const half = Math.ceil(arrayOfFiles.length / 2);
+        console.log(arrayOfFiles)
+        if (size > 4) {
+            handleUpload((arrayOfFiles.slice(0, half)))
+            handleUpload((arrayOfFiles.slice(half)))
+        } else {
+            let data = new FormData();
+
+            for (let i in inputRef.current.files) {
+                data.append('imgs', arrayOfFiles[i]);
+            }
+
+            data.append('volume', chapterVolume.toString())
+            data.append('chapter', chapterChapter.toString())
+            data.append('manga_slug', mangaSlug)
+            data.append('scan', scan)
+            data.append('title', chapterTitle)
+            let { authorization } = nookies.get(null);
+            data.append('cookie', authorization)
+
+            setPromises((state) => [...state, { url: "/api/chapter", data }])
+
+            // let res = await axios.post("/api/chapter", data).catch(e => { console.log(e); setLoading(false); });
+            // if (res && res.data) {
+            //     setLoading(false);
             //     setChapterTitle('');
             //     setChapterChapter(parseInt(`${chapterChapter}`) + parseInt('1'));
-            //     alert("success!" + res.data.newChapter.slug)
+            // } else {
+            //     alert('Unexpected Error!')
+            // }
+            console.log(promises)
         }
     }
 
+    const finish = async () => {
+        for (let i in promises) {
+            let res = await axios.post(promises[i].url, promises[i].data);
+            if (res.data.error) {
+                alert('Error: Unauthorized');
+                return;
+            }
+        }
+        alert('success')
+    }
     return (
         <div style={{ color: 'white' }}>
             <div >
-                <form onSubmit={handleSubmit}>
+                <form >
                     <Input
                         type='text'
                         title='Titúlo do Capitulo'
@@ -105,8 +162,9 @@ const Chapter = ({ mangas, scans }: Props) => {
 
 
 
-                    <button disabled={loading}>Enviar</button>
+                    <button onClick={(e: any) => handleSubmit(e)}>Enviar</button>
                 </form>
+                <button onClick={finish}>Finalizar</button>
                 <div style={{ marginTop: '40px' }}>
                     <Link href='/' >
                         <a>
@@ -115,7 +173,7 @@ const Chapter = ({ mangas, scans }: Props) => {
                     </Link>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -7,7 +7,6 @@ import { NextApiRequestWithFiles } from '../../src/types/BackTypes/ExtendedReque
 import { unlinkSync } from 'fs';
 import prisma from '../../src/libs/backServices/prisma'
 import { requestValidator } from '../../src/libs/backServices/requestValidator';
-import nookies from 'nookies';
 export const config = { api: { bodyParser: false, }, }
 
 const handler = nc();
