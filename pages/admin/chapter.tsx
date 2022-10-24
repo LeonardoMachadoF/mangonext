@@ -23,7 +23,7 @@ const Chapter = ({ mangas, scans }: Props) => {
 
         let size = arrayOfFiles.reduce((acc: number, at: any) => acc + parseInt(at.size), 0) / 1000000;
         const half = Math.ceil(arrayOfFiles.length / 2);
-        if (size > 4) {
+        if (size > 1) {
             handleUpload((arrayOfFiles.slice(0, half)))
             handleUpload((arrayOfFiles.slice(half)))
         } else {
