@@ -208,7 +208,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         }
     })
 
-    manga.status = 'ongoing'
     return {
         props: {
             manga

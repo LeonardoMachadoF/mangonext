@@ -78,4 +78,54 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     res.json({})
 })
 
+handler.patch(async (req: NextApiRequest, res: NextApiResponse) => {
+    const { sinopse, manga_slug, authorization, genres, manga_id, status, author } = req.body;
+
+    if (!authorization || authorization !== process.env.COOKIE as string) {
+        return res.json({ error: 'Unauthorized!' })
+    }
+
+    let data: any = {};
+    if (sinopse) {
+        data.sinopse = sinopse;
+    }
+    if (status) {
+        data.status = status;
+    }
+    if (author) {
+        data.author = author;
+    }
+
+    if (genres) {
+        await prisma.genresOnMangas.deleteMany({ where: { manga_id: manga_id } });
+        genres.split(';').map(async (genre: string) => {
+            let connect = await prisma.genre.findFirst({ where: { slug: genre } });
+            if (connect) {
+                await prisma.genresOnMangas.create({
+                    data: {
+                        manga_id: manga_id,
+                        genre_id: connect.id,
+                    }
+                })
+            } else {
+                let newGenre = await prisma.genre.create({
+                    data: {
+                        name: genre[0].toUpperCase() + genre.substring(1),
+                        slug: genre
+                    }
+                })
+                await prisma.genresOnMangas.create({
+                    data: {
+                        manga_id: manga_id,
+                        genre_id: newGenre.id
+                    }
+                })
+            }
+        })
+    }
+
+    await prisma.manga.update({ where: { slug: manga_slug }, data });
+    return res.status(200).json({});
+})
+
 export default handler;

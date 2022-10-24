@@ -89,7 +89,6 @@ export const Header = ({ menuOpen, setMenuOpen, absolute = false }: Props) => {
                     {searchInput && searchInputMangas &&
                         <div className={styles.followingItems}>
                             {searchInputMangas.map((manga: Manga) => {
-                                console.log(searchInputMangas)
                                 return (
                                     <div className={styles.searchInputMangas} key={manga.id} onClick={handleItemSearchClick}>
                                         <Link href={`/titulo/${manga.slug}`}>

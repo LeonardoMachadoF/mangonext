@@ -58,7 +58,6 @@ const Chapter = ({ mangas, scans }: Props) => {
     const handleUpload = async (arrayOfFiles: any) => {
         let size = arrayOfFiles.reduce((acc: number, at: any) => acc + parseInt(at.size), 0) / 1000000;
         const half = Math.ceil(arrayOfFiles.length / 2);
-        console.log(arrayOfFiles)
         if (size > 4) {
             handleUpload((arrayOfFiles.slice(0, half)))
             handleUpload((arrayOfFiles.slice(half)))
@@ -87,7 +86,6 @@ const Chapter = ({ mangas, scans }: Props) => {
             // } else {
             //     alert('Unexpected Error!')
             // }
-            console.log(promises)
         }
     }
 
