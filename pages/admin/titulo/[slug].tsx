@@ -67,21 +67,31 @@ const Manga = ({ manga }: Props) => {
         setSorted(!sorted);
     }
 
-    const handleEditItem = async (name: 'sinopse' | 'genres' | 'status' | 'author') => {
+    const handleEditItem = async (name: 'sinopse' | 'genres' | 'status' | 'author' | 'chapter', slug?: string) => {
         const actions = {
-            sinopse: { name: 'sinopse', data: sinopse },
-            genres: { name: 'genres', data: genres },
-            status: { name: 'status', data: status },
-            author: { name: 'author', data: author }
+            sinopse: { name: 'sinopse', data: sinopse, url: '/api/manga', method: 'patch' },
+            genres: { name: 'genres', data: genres, url: '/api/manga', method: 'patch' },
+            status: { name: 'status', data: status, url: '/api/manga', method: 'patch' },
+            author: { name: 'author', data: author, url: '/api/manga', method: 'patch' },
+            chapter: { name: 'chapter_slug', data: slug, url: '/api/chapter?mangaslug=', method: 'delete' },
         }
 
         const data = new FormData();
-        data.append(actions[name].name, actions[name].data);
+        data.append(actions[name].name, actions[name].data!);
         data.append('manga_slug', manga.slug);
         data.append('manga_id', manga.id);
         const { authorization } = nookies.get(null);
         data.append('authorization', authorization)
-        let result = await axios.patch('/api/manga', data);
+        let result: any = {};
+        if (actions[name].method === 'patch') {
+            await axios.patch(actions[name].url, data)
+        } else {
+            await axios.delete(`${actions[name].url}${actions[name].data}`, {
+                headers: {
+                    authorization: authorization
+                }
+            });
+        }
         if (result.status === 200) {
             router.reload();
         }
@@ -248,6 +258,7 @@ const Manga = ({ manga }: Props) => {
                                         })}
                                         activeVolume={activeVolume}
                                         setActiveVolume={setActiveVolume}
+                                        deleteChapter={handleEditItem}
                                     />
                                 )
                             })}
@@ -263,6 +274,7 @@ const Manga = ({ manga }: Props) => {
                                         })}
                                         activeVolume={activeVolume}
                                         setActiveVolume={setActiveVolume}
+                                        deleteChapter={handleEditItem}
                                     />
                                 )
                             })}
