@@ -9,10 +9,9 @@ type Props = {
     volume: number;
     activeVolume: number;
     setActiveVolume: (volume: number) => void;
-    deleteChapter?: (name: 'chapter', slug: string) => void;
 }
 
-export const ChapterInfoComponent = ({ volume, chapters, activeVolume, setActiveVolume, deleteChapter }: Props) => {
+export const ChapterInfoComponent = ({ volume, chapters, activeVolume, setActiveVolume }: Props) => {
     const handleVolumeChange = () => {
         (volume === activeVolume)
             ? setActiveVolume(0)
@@ -33,15 +32,6 @@ export const ChapterInfoComponent = ({ volume, chapters, activeVolume, setActive
                                                 <a>Cap.{chapter.chapter} - {chapter.title}</a>
                                             </Link>
                                             <span className={styles.scan}>{chapter.scan?.name && chapter.scan?.name}</span>
-                                            <div style={{ display: 'flex', gap: '12px' }}>
-                                                {deleteChapter &&
-                                                    <>
-                                                        <button>Modificar Titulo</button>
-                                                        <button>Modificar Cap</button>
-                                                        <button onClick={() => deleteChapter('chapter', chapter.slug)}>Deletar Cap</button>
-                                                    </>
-                                                }
-                                            </div>
                                         </div>
                                         <div className={styles.chapterRelease}>
                                             {getTimePast(chapter.created_at)}

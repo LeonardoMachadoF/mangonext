@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
             return -1
         }
     })
-    console.log(chapter.pages[0].file_name)
+
     return {
         props: { chapter }
     }

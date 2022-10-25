@@ -151,43 +151,6 @@ handler.post(async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
     return
 })
 
-handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
-    let chapter_slug = req.query.manga_slug as string;
-    let authorization = req.headers.authorization;
-    let chapter_id = req.query.mangaid as string;
-
-
-    if (!authorization || authorization !== process.env.COOKIE as string) {
-        return res.json({ error: 'Unauthorized!' })
-    }
-
-    if (!chapter_id && !chapter_slug) {
-        return res.json({ error: 'Insira um capítulo' })
-    }
-
-    let chapter: any = [];
-    if (chapter_slug && !chapter_id) {
-        chapter = await prisma.chapter.delete({ where: { slug: chapter_slug }, include: { pages: true } }).catch(err => {
-            throw new Error(err.meta.cause)
-        })
-    } else {
-        chapter = await prisma.chapter.delete({ where: { id: chapter_id }, include: { pages: true } }).catch(err => {
-            throw new Error(err.meta.cause)
-        })
-    }
-
-    let credentials: Credentials = await storageApi.getCredentials();
-    await storageApi.deleteUploadedPages(credentials, chapter.pages)
-
-
-    let urls = chapter.pages.map((i: { url: string }) => i.url);
-    await Promise.all(urls.map(async (url: string) => {
-        await prisma.page.delete({ where: { url: url } });
-    }))
-
-    return res.json({ status: 'success' })
-})
-
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     let { views, chapter_id } = req.body;
