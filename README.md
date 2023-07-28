@@ -1,1 +1,1 @@
-Site feito com intuito de testar a integração de uma aplicação feita em NEXTJS com um storage (backblaze) e um banco de dados (planetscale).
+Site feito com intuito de testar a integração de uma aplicação feita em NEXTJS com um storage (backblaze) e um banco de dados (planetscale). Projeto abandonado devito a falta de curadoria e mão de obra na criação e publicação de obras, tirando assim o proposito do site.
